@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "creditcardapp5af0922b": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

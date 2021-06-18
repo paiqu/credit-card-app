@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amplify2c8a474bd8fa4-staging-230252-authRole",
+      "UnauthRoleArn": "arn:aws:iam::675524012045:role/amplify-amplify2c8a474bd8fa4-staging-230252-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::675524012045:role/amplify-amplify2c8a474bd8fa4-staging-230252-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-amplify2c8a474bd8fa4-staging-230252-deployment",
+      "UnauthRoleName": "amplify-amplify2c8a474bd8fa4-staging-230252-unauthRole",
+      "StackName": "amplify-amplify2c8a474bd8fa4-staging-230252",
+      "StackId": "arn:aws:cloudformation:us-east-2:675524012045:stack/amplify-amplify2c8a474bd8fa4-staging-230252/2576df70-cfc0-11eb-b06e-02442d08ac5c",
+      "AmplifyAppId": "d1iirosluhvxv6"
+    },
+    "categories": {
+      "auth": {
+        "creditcardapp5af0922b": {}
+      }
+    }
+  }
+}
