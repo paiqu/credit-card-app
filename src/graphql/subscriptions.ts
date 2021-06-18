@@ -6,6 +6,7 @@ export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser {
     onCreateUser {
       username
+      name
       email
       cards {
         items {
@@ -13,6 +14,7 @@ export const onCreateUser = /* GraphQL */ `
           number
           expiry
           cvv
+          name
           createdAt
           updatedAt
         }
@@ -27,6 +29,7 @@ export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser {
     onUpdateUser {
       username
+      name
       email
       cards {
         items {
@@ -34,6 +37,7 @@ export const onUpdateUser = /* GraphQL */ `
           number
           expiry
           cvv
+          name
           createdAt
           updatedAt
         }
@@ -48,6 +52,7 @@ export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser {
     onDeleteUser {
       username
+      name
       email
       cards {
         items {
@@ -55,6 +60,7 @@ export const onDeleteUser = /* GraphQL */ `
           number
           expiry
           cvv
+          name
           createdAt
           updatedAt
         }
@@ -72,8 +78,10 @@ export const onCreateCard = /* GraphQL */ `
       number
       expiry
       cvv
+      name
       user {
         username
+        name
         email
         cards {
           nextToken
@@ -93,8 +101,10 @@ export const onUpdateCard = /* GraphQL */ `
       number
       expiry
       cvv
+      name
       user {
         username
+        name
         email
         cards {
           nextToken
@@ -114,8 +124,10 @@ export const onDeleteCard = /* GraphQL */ `
       number
       expiry
       cvv
+      name
       user {
         username
+        name
         email
         cards {
           nextToken

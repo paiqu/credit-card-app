@@ -6,6 +6,7 @@ export const getUser = /* GraphQL */ `
   query GetUser($username: String!) {
     getUser(username: $username) {
       username
+      name
       email
       cards {
         items {
@@ -13,6 +14,7 @@ export const getUser = /* GraphQL */ `
           number
           expiry
           cvv
+          name
           createdAt
           updatedAt
         }
@@ -40,6 +42,7 @@ export const listUsers = /* GraphQL */ `
     ) {
       items {
         username
+        name
         email
         cards {
           nextToken
@@ -52,14 +55,16 @@ export const listUsers = /* GraphQL */ `
   }
 `;
 export const getCard = /* GraphQL */ `
-  query GetCard($username: String!, $number: Int!) {
+  query GetCard($username: String!, $number: String!) {
     getCard(username: $username, number: $number) {
       username
       number
       expiry
       cvv
+      name
       user {
         username
+        name
         email
         cards {
           nextToken
@@ -75,7 +80,7 @@ export const getCard = /* GraphQL */ `
 export const listCards = /* GraphQL */ `
   query ListCards(
     $username: String
-    $number: ModelIntKeyConditionInput
+    $number: ModelStringKeyConditionInput
     $filter: ModelCardFilterInput
     $limit: Int
     $nextToken: String
@@ -94,8 +99,10 @@ export const listCards = /* GraphQL */ `
         number
         expiry
         cvv
+        name
         user {
           username
+          name
           email
           createdAt
           updatedAt

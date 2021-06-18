@@ -4,10 +4,12 @@
 
 export type CreateUserInput = {
   username: string,
+  name: string,
   email: string,
 };
 
 export type ModelUserConditionInput = {
+  name?: ModelStringInput | null,
   email?: ModelStringInput | null,
   and?: Array< ModelUserConditionInput | null > | null,
   or?: Array< ModelUserConditionInput | null > | null,
@@ -57,6 +59,7 @@ export type ModelSizeInput = {
 export type User = {
   __typename: "User",
   username: string,
+  name: string,
   email: string,
   cards?: ModelCardConnection | null,
   createdAt: string,
@@ -72,9 +75,10 @@ export type ModelCardConnection = {
 export type Card = {
   __typename: "Card",
   username: string,
-  number: number,
+  number: string,
   expiry: string,
-  cvv: number,
+  cvv: string,
+  name: string,
   user: User,
   createdAt: string,
   updatedAt: string,
@@ -82,6 +86,7 @@ export type Card = {
 
 export type UpdateUserInput = {
   username: string,
+  name?: string | null,
   email?: string | null,
 };
 
@@ -91,45 +96,37 @@ export type DeleteUserInput = {
 
 export type CreateCardInput = {
   username: string,
-  number: number,
+  number: string,
   expiry: string,
-  cvv: number,
+  cvv: string,
+  name: string,
 };
 
 export type ModelCardConditionInput = {
   expiry?: ModelStringInput | null,
-  cvv?: ModelIntInput | null,
+  cvv?: ModelStringInput | null,
+  name?: ModelStringInput | null,
   and?: Array< ModelCardConditionInput | null > | null,
   or?: Array< ModelCardConditionInput | null > | null,
   not?: ModelCardConditionInput | null,
 };
 
-export type ModelIntInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-};
-
 export type UpdateCardInput = {
   username: string,
-  number: number,
+  number: string,
   expiry?: string | null,
-  cvv?: number | null,
+  cvv?: string | null,
+  name?: string | null,
 };
 
 export type DeleteCardInput = {
   username: string,
-  number: number,
+  number: string,
 };
 
 export type ModelUserFilterInput = {
   username?: ModelStringInput | null,
+  name?: ModelStringInput | null,
   email?: ModelStringInput | null,
   and?: Array< ModelUserFilterInput | null > | null,
   or?: Array< ModelUserFilterInput | null > | null,
@@ -148,20 +145,22 @@ export type ModelUserConnection = {
   nextToken?: string | null,
 };
 
-export type ModelIntKeyConditionInput = {
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
+export type ModelStringKeyConditionInput = {
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
 };
 
 export type ModelCardFilterInput = {
   username?: ModelStringInput | null,
-  number?: ModelIntInput | null,
+  number?: ModelStringInput | null,
   expiry?: ModelStringInput | null,
-  cvv?: ModelIntInput | null,
+  cvv?: ModelStringInput | null,
+  name?: ModelStringInput | null,
   and?: Array< ModelCardFilterInput | null > | null,
   or?: Array< ModelCardFilterInput | null > | null,
   not?: ModelCardFilterInput | null,
@@ -176,15 +175,17 @@ export type CreateUserMutation = {
   createUser?:  {
     __typename: "User",
     username: string,
+    name: string,
     email: string,
     cards?:  {
       __typename: "ModelCardConnection",
       items?:  Array< {
         __typename: "Card",
         username: string,
-        number: number,
+        number: string,
         expiry: string,
-        cvv: number,
+        cvv: string,
+        name: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -204,15 +205,17 @@ export type UpdateUserMutation = {
   updateUser?:  {
     __typename: "User",
     username: string,
+    name: string,
     email: string,
     cards?:  {
       __typename: "ModelCardConnection",
       items?:  Array< {
         __typename: "Card",
         username: string,
-        number: number,
+        number: string,
         expiry: string,
-        cvv: number,
+        cvv: string,
+        name: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -232,15 +235,17 @@ export type DeleteUserMutation = {
   deleteUser?:  {
     __typename: "User",
     username: string,
+    name: string,
     email: string,
     cards?:  {
       __typename: "ModelCardConnection",
       items?:  Array< {
         __typename: "Card",
         username: string,
-        number: number,
+        number: string,
         expiry: string,
-        cvv: number,
+        cvv: string,
+        name: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -260,12 +265,14 @@ export type CreateCardMutation = {
   createCard?:  {
     __typename: "Card",
     username: string,
-    number: number,
+    number: string,
     expiry: string,
-    cvv: number,
+    cvv: string,
+    name: string,
     user:  {
       __typename: "User",
       username: string,
+      name: string,
       email: string,
       cards?:  {
         __typename: "ModelCardConnection",
@@ -288,12 +295,14 @@ export type UpdateCardMutation = {
   updateCard?:  {
     __typename: "Card",
     username: string,
-    number: number,
+    number: string,
     expiry: string,
-    cvv: number,
+    cvv: string,
+    name: string,
     user:  {
       __typename: "User",
       username: string,
+      name: string,
       email: string,
       cards?:  {
         __typename: "ModelCardConnection",
@@ -316,12 +325,14 @@ export type DeleteCardMutation = {
   deleteCard?:  {
     __typename: "Card",
     username: string,
-    number: number,
+    number: string,
     expiry: string,
-    cvv: number,
+    cvv: string,
+    name: string,
     user:  {
       __typename: "User",
       username: string,
+      name: string,
       email: string,
       cards?:  {
         __typename: "ModelCardConnection",
@@ -343,15 +354,17 @@ export type GetUserQuery = {
   getUser?:  {
     __typename: "User",
     username: string,
+    name: string,
     email: string,
     cards?:  {
       __typename: "ModelCardConnection",
       items?:  Array< {
         __typename: "Card",
         username: string,
-        number: number,
+        number: string,
         expiry: string,
-        cvv: number,
+        cvv: string,
+        name: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -376,6 +389,7 @@ export type ListUsersQuery = {
     items?:  Array< {
       __typename: "User",
       username: string,
+      name: string,
       email: string,
       cards?:  {
         __typename: "ModelCardConnection",
@@ -390,19 +404,21 @@ export type ListUsersQuery = {
 
 export type GetCardQueryVariables = {
   username: string,
-  number: number,
+  number: string,
 };
 
 export type GetCardQuery = {
   getCard?:  {
     __typename: "Card",
     username: string,
-    number: number,
+    number: string,
     expiry: string,
-    cvv: number,
+    cvv: string,
+    name: string,
     user:  {
       __typename: "User",
       username: string,
+      name: string,
       email: string,
       cards?:  {
         __typename: "ModelCardConnection",
@@ -418,7 +434,7 @@ export type GetCardQuery = {
 
 export type ListCardsQueryVariables = {
   username?: string | null,
-  number?: ModelIntKeyConditionInput | null,
+  number?: ModelStringKeyConditionInput | null,
   filter?: ModelCardFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
@@ -431,12 +447,14 @@ export type ListCardsQuery = {
     items?:  Array< {
       __typename: "Card",
       username: string,
-      number: number,
+      number: string,
       expiry: string,
-      cvv: number,
+      cvv: string,
+      name: string,
       user:  {
         __typename: "User",
         username: string,
+        name: string,
         email: string,
         createdAt: string,
         updatedAt: string,
@@ -452,15 +470,17 @@ export type OnCreateUserSubscription = {
   onCreateUser?:  {
     __typename: "User",
     username: string,
+    name: string,
     email: string,
     cards?:  {
       __typename: "ModelCardConnection",
       items?:  Array< {
         __typename: "Card",
         username: string,
-        number: number,
+        number: string,
         expiry: string,
-        cvv: number,
+        cvv: string,
+        name: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -475,15 +495,17 @@ export type OnUpdateUserSubscription = {
   onUpdateUser?:  {
     __typename: "User",
     username: string,
+    name: string,
     email: string,
     cards?:  {
       __typename: "ModelCardConnection",
       items?:  Array< {
         __typename: "Card",
         username: string,
-        number: number,
+        number: string,
         expiry: string,
-        cvv: number,
+        cvv: string,
+        name: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -498,15 +520,17 @@ export type OnDeleteUserSubscription = {
   onDeleteUser?:  {
     __typename: "User",
     username: string,
+    name: string,
     email: string,
     cards?:  {
       __typename: "ModelCardConnection",
       items?:  Array< {
         __typename: "Card",
         username: string,
-        number: number,
+        number: string,
         expiry: string,
-        cvv: number,
+        cvv: string,
+        name: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -521,12 +545,14 @@ export type OnCreateCardSubscription = {
   onCreateCard?:  {
     __typename: "Card",
     username: string,
-    number: number,
+    number: string,
     expiry: string,
-    cvv: number,
+    cvv: string,
+    name: string,
     user:  {
       __typename: "User",
       username: string,
+      name: string,
       email: string,
       cards?:  {
         __typename: "ModelCardConnection",
@@ -544,12 +570,14 @@ export type OnUpdateCardSubscription = {
   onUpdateCard?:  {
     __typename: "Card",
     username: string,
-    number: number,
+    number: string,
     expiry: string,
-    cvv: number,
+    cvv: string,
+    name: string,
     user:  {
       __typename: "User",
       username: string,
+      name: string,
       email: string,
       cards?:  {
         __typename: "ModelCardConnection",
@@ -567,12 +595,14 @@ export type OnDeleteCardSubscription = {
   onDeleteCard?:  {
     __typename: "Card",
     username: string,
-    number: number,
+    number: string,
     expiry: string,
-    cvv: number,
+    cvv: string,
+    name: string,
     user:  {
       __typename: "User",
       username: string,
+      name: string,
       email: string,
       cards?:  {
         __typename: "ModelCardConnection",

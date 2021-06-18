@@ -9,6 +9,7 @@ export const createUser = /* GraphQL */ `
   ) {
     createUser(input: $input, condition: $condition) {
       username
+      name
       email
       cards {
         items {
@@ -16,6 +17,7 @@ export const createUser = /* GraphQL */ `
           number
           expiry
           cvv
+          name
           createdAt
           updatedAt
         }
@@ -33,6 +35,7 @@ export const updateUser = /* GraphQL */ `
   ) {
     updateUser(input: $input, condition: $condition) {
       username
+      name
       email
       cards {
         items {
@@ -40,6 +43,7 @@ export const updateUser = /* GraphQL */ `
           number
           expiry
           cvv
+          name
           createdAt
           updatedAt
         }
@@ -57,6 +61,7 @@ export const deleteUser = /* GraphQL */ `
   ) {
     deleteUser(input: $input, condition: $condition) {
       username
+      name
       email
       cards {
         items {
@@ -64,6 +69,7 @@ export const deleteUser = /* GraphQL */ `
           number
           expiry
           cvv
+          name
           createdAt
           updatedAt
         }
@@ -84,8 +90,10 @@ export const createCard = /* GraphQL */ `
       number
       expiry
       cvv
+      name
       user {
         username
+        name
         email
         cards {
           nextToken
@@ -108,8 +116,10 @@ export const updateCard = /* GraphQL */ `
       number
       expiry
       cvv
+      name
       user {
         username
+        name
         email
         cards {
           nextToken
@@ -132,8 +142,10 @@ export const deleteCard = /* GraphQL */ `
       number
       expiry
       cvv
+      name
       user {
         username
+        name
         email
         cards {
           nextToken

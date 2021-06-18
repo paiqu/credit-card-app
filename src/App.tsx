@@ -7,20 +7,35 @@ import { listUsers } from './graphql/queries';
 import { 
   createUser as createUserMutation,
   deleteUser as deleteUserMutation,
+  createCard as createCardMutation,
+  deleteCard as deleteCardMutation,
 } from './graphql/mutations';
 
 const initialFormState = {
   username: '',
+  name: '',
   email: '',
-}
+};
+
+const defaultCard: ICard = {
+  number: "888888888888888",
+  name: "First Last",
+  expiry: "02/04",
+  cvv: "817",
+};
 
 type IUser = {
   username: string,
-  email?: string,
+  name: string,
+  email: string,
+  cards: ICard[],
 }
 
 type ICard = {
-  number: number,
+  number: string,
+  name: string,
+  expiry: string,
+  cvv: string,
 }
 
 type GetUsersQuery = {
@@ -32,6 +47,10 @@ type GetUsersQuery = {
 function App() {
   const [users, setUsers] = useState<IUser[]>([]);
   const [formData, setFormData] = useState(initialFormState);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   async function fetchUsers() {
     try {     
@@ -46,18 +65,31 @@ function App() {
 
   async function createUser() {
     if (!formData.username) return;
+    let { username, name, email } = formData;
     try { 
       await API.graphql({ 
         query: createUserMutation,
         variables: {
-          input: formData,
+          input: {
+            username,
+            name,
+            email,
+          },
         }
       });
     } catch (err) {
       console.log(err);
     }
 
-    setUsers([ ...users, formData ]);
+    setUsers([ 
+      ...users, 
+      {
+        username: formData.username,
+        name: "First Last",
+        email: formData.email,
+        cards: [],
+      }
+    ]);
     setFormData(initialFormState);
   }
 
@@ -77,7 +109,42 @@ function App() {
       ...formData,
       [name]: (event.target as HTMLInputElement).value,
     })
-  }
+  };
+
+  async function addCardToUser (username: string, { number, expiry, cvv}: ICard){
+    const name = "First Last";
+
+    try { 
+      await API.graphql({ 
+        query: createCardMutation,
+        variables: {
+          input: {
+            username,
+            number,
+            expiry,
+            name,
+            cvv
+          },
+        }
+      });
+      console.log("added!");
+    } catch (err) {
+      console.log(err);
+    }
+
+    const newUsersArray = users.slice();
+    newUsersArray.map(user => {
+      if (user.username === username) {
+        user.cards.push({
+          number,
+          name,
+          expiry,
+          cvv
+        });
+      }
+    })
+    setUsers(newUsersArray);
+  };
 
   return (
     <div className="App">
@@ -92,12 +159,19 @@ function App() {
         value={formData.email}
       />
       <button onClick={() => createUser()}>Create User</button>
+      <button onClick={() => addCardToUser(formData.username, defaultCard)}>Add Card to User {formData.username}</button>
       <div style={{ marginBottom: 30 }}>
         {
           users.map(user => (
             <div key={user.username}>
               <h2>{user.username}</h2>
               <p>{user.email}</p>
+              <p>{user.name}</p>
+              <p>Cards: { user.cards.length > 0 &&
+                  user.cards.map(card => (
+                    <p>{card.number}</p>
+                  )) 
+              }</p>
               <button onClick={() => deleteUser(user)}>Delete User</button>
             </div>
           ))

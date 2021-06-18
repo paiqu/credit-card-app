@@ -2,6 +2,7 @@ type User @model
   @key(fields: ["username"]) 
 {
   username: String!
+  name: String!
   email: String!
   cards: [Card] @connection(fields: ["username"])
 }
@@ -11,9 +12,11 @@ type Card @model
   @key(fields: ["username", "number"]) 
 {
   username: String!
-  number: Int!
+  number: String!
   expiry: String!
-  cvv: Int!
+  cvv: String!
+  name: String!
   user: User! @connection(fields: ["username"])
 }
+
 
