@@ -1,0 +1,19 @@
+type User @model 
+  @key(fields: ["username"]) 
+{
+  username: String!
+  email: String!
+  cards: [Card] @connection(fields: ["username"])
+}
+
+
+type Card @model 
+  @key(fields: ["username", "number"]) 
+{
+  username: String!
+  number: Int!
+  expiry: String!
+  cvv: Int!
+  user: User! @connection(fields: ["username"])
+}
+
