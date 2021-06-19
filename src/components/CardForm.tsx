@@ -1,4 +1,4 @@
-import React, { useState, FocusEvent } from 'react';
+import React, { useEffect, useState, FocusEvent } from 'react';
 
 // import Card from "@repay/react-credit-card";
 // import "@repay/react-credit-card/dist/react-credit-card.css";
@@ -11,7 +11,7 @@ import 'react-credit-cards/es/styles-compiled.css';
 import { formatExpiry } from '../utils/DataFormater';
 
 // graphql
-import { API } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
 import { 
   createCard as createCardMutation 
 } from '../graphql/mutations';
@@ -45,6 +45,10 @@ function CardForm() {
   const [focus, setFocus] = useState("");
   const [cards, setCards] = useState<ICard[]>([]);
 
+  useEffect(() => {
+    fetchCards();
+  }, []);
+
   const handleInputFocus = (e: FocusEvent<any>) => {
     setFocus(e.target.name);
   }
@@ -66,8 +70,8 @@ function CardForm() {
     const apiData = await API.graphql({
       query: listCards
     }) as { data: GetCardsQuery };
-    setCards(apiData.data.listCards.items);
-    console.log(cards);
+    const newCards = apiData.data.listCards.items;
+    setCards(newCards);
   }
 
   async function createCard() {
@@ -83,6 +87,8 @@ function CardForm() {
     } catch (err) {
       console.log(err);
     }
+    setFormData(initialFormData);
+    setFocus("");
   } 
 
   return (
