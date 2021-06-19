@@ -67,10 +67,14 @@ function CardForm() {
   };
 
   async function fetchCards() {
-    const apiData = await API.graphql({
+    const response = await API.graphql({
       query: listCards
     }) as { data: GetCardsQuery };
-    const newCards = apiData.data.listCards.items;
+    console.log(response);
+
+    const newCards = response.data.listCards.items;
+    console.log(newCards);
+    // change this later!
     setCards(newCards);
   }
 
