@@ -2,18 +2,22 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateUserInput = {
-  username: string,
+export type CreateCardInput = {
+  number: string,
+  expiry: string,
+  cvv: string,
   name: string,
-  email: string,
+  phoneNumber: string,
 };
 
-export type ModelUserConditionInput = {
+export type ModelCardConditionInput = {
+  expiry?: ModelStringInput | null,
+  cvv?: ModelStringInput | null,
   name?: ModelStringInput | null,
-  email?: ModelStringInput | null,
-  and?: Array< ModelUserConditionInput | null > | null,
-  or?: Array< ModelUserConditionInput | null > | null,
-  not?: ModelUserConditionInput | null,
+  phoneNumber?: ModelStringInput | null,
+  and?: Array< ModelCardConditionInput | null > | null,
+  or?: Array< ModelCardConditionInput | null > | null,
+  not?: ModelCardConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -56,81 +60,38 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type User = {
-  __typename: "User",
-  username: string,
-  name: string,
-  email: string,
-  cards?: ModelCardConnection | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type ModelCardConnection = {
-  __typename: "ModelCardConnection",
-  items?:  Array<Card | null > | null,
-  nextToken?: string | null,
-};
-
 export type Card = {
   __typename: "Card",
-  username: string,
   number: string,
   expiry: string,
   cvv: string,
   name: string,
-  user: User,
+  phoneNumber: string,
   createdAt: string,
   updatedAt: string,
-};
-
-export type UpdateUserInput = {
-  username: string,
-  name?: string | null,
-  email?: string | null,
-};
-
-export type DeleteUserInput = {
-  username: string,
-};
-
-export type CreateCardInput = {
-  username: string,
-  number: string,
-  expiry: string,
-  cvv: string,
-  name: string,
-};
-
-export type ModelCardConditionInput = {
-  expiry?: ModelStringInput | null,
-  cvv?: ModelStringInput | null,
-  name?: ModelStringInput | null,
-  and?: Array< ModelCardConditionInput | null > | null,
-  or?: Array< ModelCardConditionInput | null > | null,
-  not?: ModelCardConditionInput | null,
 };
 
 export type UpdateCardInput = {
-  username: string,
   number: string,
   expiry?: string | null,
   cvv?: string | null,
   name?: string | null,
+  phoneNumber?: string | null,
 };
 
 export type DeleteCardInput = {
-  username: string,
   number: string,
 };
 
-export type ModelUserFilterInput = {
-  username?: ModelStringInput | null,
+export type ModelCardFilterInput = {
+  number?: ModelStringInput | null,
+  expiry?: ModelStringInput | null,
+  cvv?: ModelStringInput | null,
   name?: ModelStringInput | null,
-  email?: ModelStringInput | null,
-  and?: Array< ModelUserFilterInput | null > | null,
-  or?: Array< ModelUserFilterInput | null > | null,
-  not?: ModelUserFilterInput | null,
+  phoneNumber?: ModelStringInput | null,
+  and?: Array< ModelCardFilterInput | null > | null,
+  or?: Array< ModelCardFilterInput | null > | null,
+  not?: ModelCardFilterInput | null,
 };
 
 export enum ModelSortDirection {
@@ -139,121 +100,10 @@ export enum ModelSortDirection {
 }
 
 
-export type ModelUserConnection = {
-  __typename: "ModelUserConnection",
-  items?:  Array<User | null > | null,
+export type ModelCardConnection = {
+  __typename: "ModelCardConnection",
+  items?:  Array<Card | null > | null,
   nextToken?: string | null,
-};
-
-export type ModelStringKeyConditionInput = {
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-};
-
-export type ModelCardFilterInput = {
-  username?: ModelStringInput | null,
-  number?: ModelStringInput | null,
-  expiry?: ModelStringInput | null,
-  cvv?: ModelStringInput | null,
-  name?: ModelStringInput | null,
-  and?: Array< ModelCardFilterInput | null > | null,
-  or?: Array< ModelCardFilterInput | null > | null,
-  not?: ModelCardFilterInput | null,
-};
-
-export type CreateUserMutationVariables = {
-  input: CreateUserInput,
-  condition?: ModelUserConditionInput | null,
-};
-
-export type CreateUserMutation = {
-  createUser?:  {
-    __typename: "User",
-    username: string,
-    name: string,
-    email: string,
-    cards?:  {
-      __typename: "ModelCardConnection",
-      items?:  Array< {
-        __typename: "Card",
-        username: string,
-        number: string,
-        expiry: string,
-        cvv: string,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type UpdateUserMutationVariables = {
-  input: UpdateUserInput,
-  condition?: ModelUserConditionInput | null,
-};
-
-export type UpdateUserMutation = {
-  updateUser?:  {
-    __typename: "User",
-    username: string,
-    name: string,
-    email: string,
-    cards?:  {
-      __typename: "ModelCardConnection",
-      items?:  Array< {
-        __typename: "Card",
-        username: string,
-        number: string,
-        expiry: string,
-        cvv: string,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeleteUserMutationVariables = {
-  input: DeleteUserInput,
-  condition?: ModelUserConditionInput | null,
-};
-
-export type DeleteUserMutation = {
-  deleteUser?:  {
-    __typename: "User",
-    username: string,
-    name: string,
-    email: string,
-    cards?:  {
-      __typename: "ModelCardConnection",
-      items?:  Array< {
-        __typename: "Card",
-        username: string,
-        number: string,
-        expiry: string,
-        cvv: string,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
 };
 
 export type CreateCardMutationVariables = {
@@ -264,23 +114,11 @@ export type CreateCardMutationVariables = {
 export type CreateCardMutation = {
   createCard?:  {
     __typename: "Card",
-    username: string,
     number: string,
     expiry: string,
     cvv: string,
     name: string,
-    user:  {
-      __typename: "User",
-      username: string,
-      name: string,
-      email: string,
-      cards?:  {
-        __typename: "ModelCardConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    },
+    phoneNumber: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -294,23 +132,11 @@ export type UpdateCardMutationVariables = {
 export type UpdateCardMutation = {
   updateCard?:  {
     __typename: "Card",
-    username: string,
     number: string,
     expiry: string,
     cvv: string,
     name: string,
-    user:  {
-      __typename: "User",
-      username: string,
-      name: string,
-      email: string,
-      cards?:  {
-        __typename: "ModelCardConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    },
+    phoneNumber: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -324,117 +150,35 @@ export type DeleteCardMutationVariables = {
 export type DeleteCardMutation = {
   deleteCard?:  {
     __typename: "Card",
-    username: string,
     number: string,
     expiry: string,
     cvv: string,
     name: string,
-    user:  {
-      __typename: "User",
-      username: string,
-      name: string,
-      email: string,
-      cards?:  {
-        __typename: "ModelCardConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    },
+    phoneNumber: string,
     createdAt: string,
     updatedAt: string,
-  } | null,
-};
-
-export type GetUserQueryVariables = {
-  username: string,
-};
-
-export type GetUserQuery = {
-  getUser?:  {
-    __typename: "User",
-    username: string,
-    name: string,
-    email: string,
-    cards?:  {
-      __typename: "ModelCardConnection",
-      items?:  Array< {
-        __typename: "Card",
-        username: string,
-        number: string,
-        expiry: string,
-        cvv: string,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListUsersQueryVariables = {
-  username?: string | null,
-  filter?: ModelUserFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  sortDirection?: ModelSortDirection | null,
-};
-
-export type ListUsersQuery = {
-  listUsers?:  {
-    __typename: "ModelUserConnection",
-    items?:  Array< {
-      __typename: "User",
-      username: string,
-      name: string,
-      email: string,
-      cards?:  {
-        __typename: "ModelCardConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
-    nextToken?: string | null,
   } | null,
 };
 
 export type GetCardQueryVariables = {
-  username: string,
   number: string,
 };
 
 export type GetCardQuery = {
   getCard?:  {
     __typename: "Card",
-    username: string,
     number: string,
     expiry: string,
     cvv: string,
     name: string,
-    user:  {
-      __typename: "User",
-      username: string,
-      name: string,
-      email: string,
-      cards?:  {
-        __typename: "ModelCardConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    },
+    phoneNumber: string,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
 export type ListCardsQueryVariables = {
-  username?: string | null,
-  number?: ModelStringKeyConditionInput | null,
+  number?: string | null,
   filter?: ModelCardFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
@@ -446,19 +190,11 @@ export type ListCardsQuery = {
     __typename: "ModelCardConnection",
     items?:  Array< {
       __typename: "Card",
-      username: string,
       number: string,
       expiry: string,
       cvv: string,
       name: string,
-      user:  {
-        __typename: "User",
-        username: string,
-        name: string,
-        email: string,
-        createdAt: string,
-        updatedAt: string,
-      },
+      phoneNumber: string,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -466,101 +202,14 @@ export type ListCardsQuery = {
   } | null,
 };
 
-export type OnCreateUserSubscription = {
-  onCreateUser?:  {
-    __typename: "User",
-    username: string,
-    name: string,
-    email: string,
-    cards?:  {
-      __typename: "ModelCardConnection",
-      items?:  Array< {
-        __typename: "Card",
-        username: string,
-        number: string,
-        expiry: string,
-        cvv: string,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnUpdateUserSubscription = {
-  onUpdateUser?:  {
-    __typename: "User",
-    username: string,
-    name: string,
-    email: string,
-    cards?:  {
-      __typename: "ModelCardConnection",
-      items?:  Array< {
-        __typename: "Card",
-        username: string,
-        number: string,
-        expiry: string,
-        cvv: string,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeleteUserSubscription = {
-  onDeleteUser?:  {
-    __typename: "User",
-    username: string,
-    name: string,
-    email: string,
-    cards?:  {
-      __typename: "ModelCardConnection",
-      items?:  Array< {
-        __typename: "Card",
-        username: string,
-        number: string,
-        expiry: string,
-        cvv: string,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
 export type OnCreateCardSubscription = {
   onCreateCard?:  {
     __typename: "Card",
-    username: string,
     number: string,
     expiry: string,
     cvv: string,
     name: string,
-    user:  {
-      __typename: "User",
-      username: string,
-      name: string,
-      email: string,
-      cards?:  {
-        __typename: "ModelCardConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    },
+    phoneNumber: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -569,23 +218,11 @@ export type OnCreateCardSubscription = {
 export type OnUpdateCardSubscription = {
   onUpdateCard?:  {
     __typename: "Card",
-    username: string,
     number: string,
     expiry: string,
     cvv: string,
     name: string,
-    user:  {
-      __typename: "User",
-      username: string,
-      name: string,
-      email: string,
-      cards?:  {
-        __typename: "ModelCardConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    },
+    phoneNumber: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -594,23 +231,11 @@ export type OnUpdateCardSubscription = {
 export type OnDeleteCardSubscription = {
   onDeleteCard?:  {
     __typename: "Card",
-    username: string,
     number: string,
     expiry: string,
     cvv: string,
     name: string,
-    user:  {
-      __typename: "User",
-      username: string,
-      name: string,
-      email: string,
-      cards?:  {
-        __typename: "ModelCardConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    },
+    phoneNumber: string,
     createdAt: string,
     updatedAt: string,
   } | null,
