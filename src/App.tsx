@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
-import { API } from 'aws-amplify';
-import { GraphQLResult } from "@aws-amplify/api";
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
-import { listCards } from './graphql/queries';
-import { 
-  createCard as createCardMutation,
-  deleteCard as deleteCardMutation,
-} from './graphql/mutations';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+// pages
+import FormPage from './pages/FormPage';
 
 const initialFormState = {
   username: '',
@@ -30,54 +25,16 @@ type ICard = {
 }
 
 function App() {
-  const [users, setUsers] = useState<IUser[]>([]);
-  const [formData, setFormData] = useState(initialFormState);
-
-  useEffect(() => {
-
-  }, []);
-
-  const handleChange = (name: string, event: React.FormEvent<EventTarget>) => {
-    setFormData({
-      ...formData,
-      [name]: (event.target as HTMLInputElement).value,
-    })
-  };
-
 
   return (
     <div className="App">
-      <input 
-        onChange={event => handleChange('username', event)}
-        placeholder="Username"
-        value={formData.username}
-      />
-      <input 
-        onChange={event => handleChange('email', event)}
-        placeholder="Email"
-        value={formData.email}
-      />
-      {/* <button onClick={() => createUser()}>Create User</button>
-      <button onClick={() => addCardToUser(formData.username, defaultCard)}>Add Card to User {formData.username}</button> */}
-      <div style={{ marginBottom: 30 }}>
-        {
-          users.map(user => (
-            <div key={user.username}>
-              <h2>{user.username}</h2>
-              <p>{user.email}</p>
-              <p>{user.name}</p>
-              {/* <p>Cards: { user.cards.length > 0 &&
-                  user.cards.map(card => (
-                    <p>{card.number}</p>
-                  )) 
-              }</p> */}
-            </div>
-          ))
-        }
-      </div>
-      <AmplifySignOut />
+      <Router>
+        <Switch>
+          <Route exact path='/' component={FormPage} />
+        </Switch>
+      </Router>
     </div>
   );
 }
 
-export default withAuthenticator(App);
+export default App;
