@@ -8,3 +8,9 @@ export function formatExpiry(value: string) {
 
   return data;
 }
+
+export function formatCardNumber(value: string) {
+  if (!value) return value;
+
+  
+}

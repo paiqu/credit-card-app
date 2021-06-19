@@ -10,29 +10,80 @@ import 'react-credit-cards/es/styles-compiled.css';
 // utils
 import { formatExpiry } from '../utils/DataFormater';
 
+// graphql
+import { API } from 'aws-amplify';
+import { 
+  createCard as createCardMutation 
+} from '../graphql/mutations';
+import { listCards } from '../graphql/queries';
+
+const initialFormData = {
+  number: "",
+  expiry: "",
+  cvv: "",
+  name: "",
+  phone: "",
+};
+
+type ICard = {
+  number: string,
+  expiry: string,
+  cvv: string,
+  name: string,
+  phone: string,
+}
+
+type GetCardsQuery = {
+  listCards: {
+    items: ICard[]
+  }
+}
 
 function CardForm() {
-  const [formData, setFormData] = useState({
-    number: "",
-    expiry: "",
-    cvv: "",
-    name: "",
-    phone: "",
-  });
+  const [formData, setFormData] = useState(initialFormData);
 
   const [focus, setFocus] = useState("");
+  const [cards, setCards] = useState<ICard[]>([]);
 
   const handleInputFocus = (e: FocusEvent<any>) => {
     setFocus(e.target.name);
   }
   
 
-  const handleChange = (name: string, event: React.FormEvent<EventTarget>) => {
+  const handleChange = (name: string, { target }: React.ChangeEvent<HTMLInputElement>) => {
+    let newValue = target.value;
+    if (target.name === "expiry") {
+      newValue = formatExpiry(newValue);
+    }
+
     setFormData({
       ...formData,
-      [name]: (event.target as HTMLInputElement).value,
+      [name]: newValue,
     })
   };
+
+  async function fetchCards() {
+    const apiData = await API.graphql({
+      query: listCards
+    }) as { data: GetCardsQuery };
+    setCards(apiData.data.listCards.items);
+    console.log(cards);
+  }
+
+  async function createCard() {
+    if (!formData.number) return;
+    try {
+      await API.graphql({
+        query: createCardMutation,
+        variables: {
+          input: formData
+        }
+      });
+      console.log("card created");
+    } catch (err) {
+      console.log(err);
+    }
+  } 
 
   return (
     <div>
@@ -90,6 +141,8 @@ function CardForm() {
           onFocus={handleInputFocus}
         />
       </fieldset>
+      <button onClick={createCard}>Save</button>
+      <button onClick={fetchCards}>List Saved Cards</button>
     </div>
   );
 }
