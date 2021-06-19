@@ -9,7 +9,7 @@ export const getCard = /* GraphQL */ `
       expiry
       cvv
       name
-      phoneNumber
+      phone
       createdAt
       updatedAt
     }
@@ -35,7 +35,7 @@ export const listCards = /* GraphQL */ `
         expiry
         cvv
         name
-        phoneNumber
+        phone
         createdAt
         updatedAt
       }

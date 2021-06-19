@@ -5,5 +5,5 @@ type Card @model
   expiry: String!
   cvv: String!
   name: String!
-  phoneNumber: String!
+  phone: String!
 }

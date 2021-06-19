@@ -12,7 +12,7 @@ export const createCard = /* GraphQL */ `
       expiry
       cvv
       name
-      phoneNumber
+      phone
       createdAt
       updatedAt
     }
@@ -28,7 +28,7 @@ export const updateCard = /* GraphQL */ `
       expiry
       cvv
       name
-      phoneNumber
+      phone
       createdAt
       updatedAt
     }
@@ -44,7 +44,7 @@ export const deleteCard = /* GraphQL */ `
       expiry
       cvv
       name
-      phoneNumber
+      phone
       createdAt
       updatedAt
     }
