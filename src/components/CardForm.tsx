@@ -132,7 +132,21 @@ function CardForm() {
   } 
 
   const CardFormSchema = Yup.object().shape({
-
+    name: Yup.string()
+      .required("Full name is required for payment"),
+    number: Yup.string()
+      .required("Required"),
+    phone: Yup.string()
+      .length(15)
+      .required("Required"),
+    expiry: Yup.string()
+      .matches(/(0[1-9]|10|11|12)\/[0-9]{2}/, 'Date is invalid')
+      .required("Required"),
+    cvc: Yup.string()
+      .matches(/^[0-9]{3, 4}$/, 'cvc is either 3 or 4 digits')
+      .max(4)
+      .min(3, 'cvc is at least three digits long')
+      .required("Required"),
   });
 
   return (
@@ -146,14 +160,16 @@ function CardForm() {
       <Formik
         initialValues={initialFormData}
         onSubmit={(values) => {
-
+          createCard();
         }}
         validationSchema={CardFormSchema}
       >
         {(props: FormikProps<ICard>) => {
           const {
             values,
-            handleChange
+            handleChange,
+            errors,
+            touched,
           } = props;
 
           return (
@@ -195,6 +211,12 @@ function CardForm() {
                       value={values.name}
                       onFocus={handleInputFocus}
                       variant='outlined'
+                      error={
+                        errors.name && touched.name ? true : false
+                      }
+                      helperText={
+                        errors.name && touched.name && String(errors.name)
+                      }
                     />
                   </Grid>
                   <Grid item xs={12} >
@@ -205,13 +227,19 @@ function CardForm() {
                         handleFormChange('phone', e)
                         handleChange(e)
                       }}
-                    >
+                      >
                       <TextField
                         fullWidth
                         label='Phone Number'
                         name='phone'
                         variant='outlined'
-                      />
+                        error={
+                          errors.phone && touched.phone ? true : false
+                        }
+                        helperText={
+                          errors.phone && touched.phone && String(errors.phone)
+                        }
+                        />
                     </InputMask>
                   </Grid>
                   <Grid item xs={12}>
@@ -229,6 +257,12 @@ function CardForm() {
                         label='Card Number'
                         name='number'
                         variant='outlined'
+                        error={
+                          errors.number && touched.number ? true : false
+                        }
+                        helperText={
+                          errors.number && touched.number && String(errors.number)
+                        }
                       />
                     </InputMask>
                   </Grid>
@@ -248,6 +282,12 @@ function CardForm() {
                         label="Expiration Date"
                         name='expiry'
                         variant='outlined'
+                        error={
+                          errors.expiry && touched.expiry ? true : false
+                        }
+                        helperText={
+                          errors.expiry && touched.expiry && String(errors.expiry)
+                        }
                       />
                     </InputMask>
                   </Grid>
@@ -266,6 +306,12 @@ function CardForm() {
                         label='cvc'
                         name='cvc'
                         variant='outlined'
+                        error={
+                          errors.cvc && touched.cvc ? true : false
+                        }
+                        helperText={
+                          errors.cvc && touched.cvc && String(errors.cvc)
+                        }
                       />
                     </InputMask>
                   </Grid>
@@ -283,11 +329,12 @@ function CardForm() {
                   </Grid>
                   <Grid item xs={12}>
                     <Button
+                      type='submit'
                       fullWidth
                       color='primary'
                       variant='contained'
                       size='large'
-                      onClick={createCard}
+                      // onClick={createCard}
                     >
                       Submit
                     </Button>
