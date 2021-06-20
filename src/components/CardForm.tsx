@@ -122,6 +122,28 @@ function CardForm() {
     }
   }
 
+  async function fetchCardsByNameByPhone(name: string, phone: string) {
+    let filter = {
+      // and: [
+      //   { name: { eq: name } },
+      //   { phone: { eq: phone } },
+      // ]
+      name: { eq: name },
+      phone: { eq: phone }
+    };
+
+    try {
+      const response = await API.graphql({
+        query: listCards,
+        variables: { filter: filter }
+      }) as { data: GetCardsQuery };
+
+      console.log(response.data.listCards.items);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async function createCard() {
     if (!formData.number) return;
     try {
@@ -132,11 +154,11 @@ function CardForm() {
         }
       });
       console.log("card created");
+      setFormData(initialFormData);
+      setFocus("");
     } catch (err) {
       console.log(err);
     }
-    setFormData(initialFormData);
-    setFocus("");
   } 
 
   const CardFormSchema = Yup.object().shape({
@@ -159,6 +181,7 @@ function CardForm() {
       .required("Required"),
   });
 
+
   return (
     <div className={classes.root}>
       <div className={classes.card}>
@@ -169,8 +192,9 @@ function CardForm() {
       </div>
       <Formik
         initialValues={initialFormData}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           createCard();
+          resetForm();
         }}
         validationSchema={CardFormSchema}
       >
@@ -364,6 +388,17 @@ function CardForm() {
                       disabled
                     >
                       My Wallet
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      fullWidth
+                      color='primary'
+                      variant='outlined'
+                      size='large'
+                      onClick={() => fetchCardsByNameByPhone("Pai Qu", "+61 123123123")}
+                    >
+                      Load Cards of Pai Qu (+61 123123123)
                     </Button>
                   </Grid>
                 </Grid>
