@@ -273,6 +273,7 @@ function CardForm() {
                     <FormControlLabel 
                       control={
                         <Switch
+                          color='secondary'
                           checked={saved}
                           onChange={handleSwitchChange}
                         />
