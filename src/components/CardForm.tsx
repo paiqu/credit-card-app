@@ -10,6 +10,10 @@ import 'react-credit-cards/es/styles-compiled.css';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 // utils
 import { formatExpiry } from '../utils/DataFormater';
@@ -68,7 +72,7 @@ function CardForm() {
   const [formData, setFormData] = useState(initialFormData);
   const [focus, setFocus] = useState("");
   const [cards, setCards] = useState<ICard[]>([]);
-
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     fetchCards();
@@ -76,7 +80,11 @@ function CardForm() {
 
   const handleInputFocus = (e: FocusEvent<any>) => {
     setFocus(e.target.name);
-  }
+  };
+
+  const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSaved(event.target.checked);
+  };
   
 
   const handleFormChange = (name: string, { target }: React.ChangeEvent<any>) => {
@@ -224,7 +232,7 @@ function CardForm() {
                       />
                     </InputMask>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs>
                     <InputMask
                       mask='99/99'
                       maskPlaceholder='MM/YY'
@@ -243,7 +251,7 @@ function CardForm() {
                       />
                     </InputMask>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs>
                     <InputMask
                       mask='999'
                       onChange={(e: ChangeEvent) => {
@@ -260,6 +268,39 @@ function CardForm() {
                         variant='outlined'
                       />
                     </InputMask>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControlLabel 
+                      control={
+                        <Switch
+                          checked={saved}
+                          onChange={handleSwitchChange}
+                        />
+                      }
+                      label="Save this card for future payment"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      fullWidth
+                      color='primary'
+                      variant='contained'
+                      size='large'
+                      onClick={createCard}
+                    >
+                      Submit
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      fullWidth
+                      color='primary'
+                      variant='text'
+                      size='large'
+                      disabled
+                    >
+                      My Wallet
+                    </Button>
                   </Grid>
                 </Grid>
               </Grid>
