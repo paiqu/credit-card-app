@@ -1,7 +1,6 @@
 import React, { useEffect, useState, FocusEvent, ChangeEvent } from 'react';
 
-// import Card from "@repay/react-credit-card";
-// import "@repay/react-credit-card/dist/react-credit-card.css";
+import InputMask from 'react-input-mask';
 
 // @ts-ignore
 import Cards from 'react-credit-cards';
@@ -241,50 +240,71 @@ function CardForm() {
                 onFocus={handleInputFocus}
                 variant='outlined'
               />
-              <TextField
-                label='Phone Number'
-                name='phone'
+              <InputMask
+                mask="+(61) 999999999"
+                value={values.phone}
                 onChange={(e) => {
                   handleFormChange('phone', e)
                   handleChange(e)
-                }}                
-                value={formData.phone}
-                variant='outlined'
-              />
-              <TextField
-                label='Card Number'
-                name='number'
-                placeholder="xxxx xxxx xxxx xxxx"
+                }}
+              >
+                <TextField
+                  label='Phone Number'
+                  name='phone'
+                  // onChange={(e) => {
+                  //   handleFormChange('phone', e)
+                  //   handleChange(e)
+                  // }}
+                  // value={formData.phone}
+                  variant='outlined'
+                />
+              </InputMask>
+              <InputMask
+                mask='9999 9999 9999 9999'
+                value={values.number}
                 onChange={(e) => {
                   handleFormChange('number', e)
                   handleChange(e)
-                }}                value={values.number}
-                onFocus={handleInputFocus}
-                variant='outlined'
-              />
-              <TextField
-                label="Expiration Date"
-                name='expiry'
-                placeholder="MM/YY"
+                }} 
+                onFocus={handleInputFocus} 
+              >
+                <TextField
+                  label='Card Number'
+                  name='number'
+                  variant='outlined'
+                />
+              </InputMask>
+              <InputMask
+                mask='99/99'
+                maskPlaceholder='MM/YY'
                 onChange={(e) => {
                   handleFormChange('expiry', e)
                   handleChange(e)
-                }}                value={values.expiry}
+                }}                
+                value={values.expiry}
                 onFocus={handleInputFocus}
-                variant='outlined'
-              />
-              <TextField
-                label='cvc'
-                name='cvc'
-                placeholder="xxx"
+              >
+                <TextField
+                  label="Expiration Date"
+                  name='expiry'
+                  variant='outlined'
+                />
+              </InputMask>
+              <InputMask
+                mask='999'
                 onChange={(e: ChangeEvent) => {
                   handleFormChange('cvc', e)
                   handleChange(e)
                 }}   
                 value={values.cvc}
                 onFocus={handleInputFocus}
-                variant='outlined'
-              />
+              >
+                <TextField
+                  label='cvc'
+                  name='cvc'
+                  variant='outlined'
+                />
+              </InputMask>
             </Form>
           );
         }}
