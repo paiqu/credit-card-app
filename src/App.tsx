@@ -14,14 +14,14 @@ const defaultCard: ICard = {
   number: "888888888888888",
   name: "First Last",
   expiry: "02/04",
-  cvv: "817",
+  cvc: "817",
 };
 
 type ICard = {
   number: string,
   name: string,
   expiry: string,
-  cvv: string,
+  cvc: string,
 }
 
 function App() {

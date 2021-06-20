@@ -1,7 +1,7 @@
 export type ICard = {
   number: string,
   expiry: string,
-  cvv: string,
+  cvc: string,
   name: string,
   phone: string,
 }
