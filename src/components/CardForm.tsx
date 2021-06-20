@@ -99,6 +99,14 @@ function CardForm() {
     })
   };
 
+  async function fetchCardByNumber(number: string) {
+    try {
+      
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async function fetchCards() {
     try {
       const response = await API.graphql({
@@ -143,7 +151,7 @@ function CardForm() {
       .matches(/(0[1-9]|10|11|12)\/[0-9]{2}/, 'Date is invalid')
       .required("Required"),
     cvc: Yup.string()
-      .matches(/^[0-9]{3, 4}$/, 'cvc is either 3 or 4 digits')
+      .matches(/^[0-9]{3,4}$/, 'cvc is either 3 or 4 digits')
       .max(4)
       .min(3, 'cvc is at least three digits long')
       .required("Required"),
