@@ -8,6 +8,8 @@ import 'react-credit-cards/es/styles-compiled.css';
 
 // Material UI
 import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 
 // utils
 import { formatExpiry } from '../utils/DataFormater';
@@ -40,11 +42,27 @@ type GetCardsQuery = {
   }
 }
 
-function CardForm() {
-  const [formData, setFormData] = useState(initialFormData);
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  }
+}));
 
+function CardForm() {
+  const classes = useStyles();
+  
+  const [formData, setFormData] = useState(initialFormData);
   const [focus, setFocus] = useState("");
   const [cards, setCards] = useState<ICard[]>([]);
+
 
   useEffect(() => {
     fetchCards();
@@ -103,113 +121,8 @@ function CardForm() {
 
   });
 
-  // const CardForm = () => {
-  //   const formik = useFormik({
-  //     initialValues: initialFormData,
-  //     validationSchema: CardFormSchema,
-  //     onSubmit: values => {
-  //       alert(JSON.stringify(values, null, 2));
-  //     },
-  //   });
-
-  //   const { handleSubmit, handleChange, values } = formik;
-
-  //   return (
-  //     <form onSubmit={handleSubmit}>
-  //       <fieldset>
-  //         <legend>Name on Card</legend>
-  //         <input
-  //           name='name'
-  //           onChange={handleChange}
-  //           value={values.name}
-  //           onFocus={handleInputFocus}
-  //         />
-  //       </fieldset>
-  //       <fieldset>
-  //         <legend>Phone Number</legend>
-  //         <input
-  //           name='phone'
-  //           onChange={handleChange}
-  //           value={values.phone}
-  //         />
-  //       </fieldset>
-  //       <fieldset>
-  //         <legend>Card Number</legend>
-  //         <input
-  //           name='number'
-  //           placeholder="xxxx xxxx xxxx xxxx"
-  //           onChange={handleChange}
-  //           value={values.number}
-  //           onFocus={handleInputFocus}
-  //         />
-  //       </fieldset>
-  //       <fieldset>
-  //         <legend>Expiration Date</legend>
-  //         <input
-  //           name='expiry'
-  //           placeholder="MM/YY"
-  //           pattern="\d\d/\d\d"
-  //           onChange={handleChange}
-  //           value={values.expiry}
-  //           onFocus={handleInputFocus}
-  //         />
-  //       </fieldset>
-  //       <fieldset>
-  //         <legend>cvc</legend>
-  //         <input
-  //           name='cvc'
-  //           placeholder="xxx"
-  //           onChange={handleChange}
-  //           value={values.cvc}
-  //           onFocus={handleInputFocus}
-  //         />
-  //       </fieldset>
-  //     </form>
-  //   );
-  // };
-
-  // const MuiForm = () => {
-  //   return (
-  //     <div>
-  //       <input
-  //         name='name'
-  //         onChange={handleChange('name')}
-  //         value={formData.name}
-  //         onFocus={handleInputFocus}
-  //       />
-  //       <input
-  //         name='phone'
-  //         onChange={handleChange('phone')}
-  //         value={formData.phone}
-  //       />
-  //       <input
-  //         name='number'
-  //         placeholder="xxxx xxxx xxxx xxxx"
-  //         onChange={handleChange('number')}
-  //         value={formData.number}
-  //         onFocus={handleInputFocus}
-  //       />
-  //       <input
-  //         name='expiry'
-  //         placeholder="MM/YY"
-  //         pattern="\d\d/\d\d"
-  //         onChange={handleChange('expiry')}
-  //         value={formData.expiry}
-  //         onFocus={handleInputFocus}
-  //       />
-  //       <input
-  //         name='cvc'
-  //         placeholder="xxx"
-  //         onChange={handleChange('cvc')}
-  //         value={formData.cvc}
-  //         onFocus={handleInputFocus}
-  //       />
-  //     </div>
-  //   );
-  // }
-
   return (
-    <div>
+    <div className={classes.root}>
       <Cards 
         {...formData} 
         focused={focus} 
@@ -228,129 +141,105 @@ function CardForm() {
           } = props;
 
           return (
-            <Form>
-              <TextField
-                label='Name'
-                name='name'
-                onChange={(e) => {
-                  handleFormChange('name', e)
-                  handleChange(e)
-                }}
-                value={values.name}
-                onFocus={handleInputFocus}
-                variant='outlined'
-              />
-              <InputMask
-                mask="+(61) 999999999"
-                value={values.phone}
-                onChange={(e) => {
-                  handleFormChange('phone', e)
-                  handleChange(e)
+            <Form className={classes.form}>
+              <Grid 
+                container 
+                spacing={1}
+                style={{
+                  width: '80%'
                 }}
               >
-                <TextField
-                  label='Phone Number'
-                  name='phone'
-                  // onChange={(e) => {
-                  //   handleFormChange('phone', e)
-                  //   handleChange(e)
-                  // }}
-                  // value={formData.phone}
-                  variant='outlined'
-                />
-              </InputMask>
-              <InputMask
-                mask='9999 9999 9999 9999'
-                value={values.number}
-                onChange={(e) => {
-                  handleFormChange('number', e)
-                  handleChange(e)
-                }} 
-                onFocus={handleInputFocus} 
-              >
-                <TextField
-                  label='Card Number'
-                  name='number'
-                  variant='outlined'
-                />
-              </InputMask>
-              <InputMask
-                mask='99/99'
-                maskPlaceholder='MM/YY'
-                onChange={(e) => {
-                  handleFormChange('expiry', e)
-                  handleChange(e)
-                }}                
-                value={values.expiry}
-                onFocus={handleInputFocus}
-              >
-                <TextField
-                  label="Expiration Date"
-                  name='expiry'
-                  variant='outlined'
-                />
-              </InputMask>
-              <InputMask
-                mask='999'
-                onChange={(e: ChangeEvent) => {
-                  handleFormChange('cvc', e)
-                  handleChange(e)
-                }}   
-                value={values.cvc}
-                onFocus={handleInputFocus}
-              >
-                <TextField
-                  label='cvc'
-                  name='cvc'
-                  variant='outlined'
-                />
-              </InputMask>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label='Name'
+                    name='name'
+                    onChange={(e) => {
+                      handleFormChange('name', e)
+                      handleChange(e)
+                    }}
+                    value={values.name}
+                    onFocus={handleInputFocus}
+                    variant='outlined'
+                  />
+                </Grid>
+                <Grid item xs={12} >
+                  <InputMask
+                    mask="+(61) 999999999"
+                    value={values.phone}
+                    onChange={(e) => {
+                      handleFormChange('phone', e)
+                      handleChange(e)
+                    }}
+                  >
+                    <TextField
+                      fullWidth
+                      label='Phone Number'
+                      name='phone'
+                      variant='outlined'
+                    />
+                  </InputMask>
+                </Grid>
+                <Grid item xs={12}>
+                  <InputMask
+                    mask='9999 9999 9999 9999'
+                    value={values.number}
+                    onChange={(e) => {
+                      handleFormChange('number', e)
+                      handleChange(e)
+                    }}
+                    onFocus={handleInputFocus}
+                  >
+                    <TextField
+                      fullWidth
+                      label='Card Number'
+                      name='number'
+                      variant='outlined'
+                    />
+                  </InputMask>
+                </Grid>
+                <Grid item xs={12}>
+                  <InputMask
+                    mask='99/99'
+                    maskPlaceholder='MM/YY'
+                    onChange={(e) => {
+                      handleFormChange('expiry', e)
+                      handleChange(e)
+                    }}
+                    value={values.expiry}
+                    onFocus={handleInputFocus}
+                  >
+                    <TextField
+                      fullWidth
+                      label="Expiration Date"
+                      name='expiry'
+                      variant='outlined'
+                    />
+                  </InputMask>
+                </Grid>
+                <Grid item xs={12}>
+                  <InputMask
+                    mask='999'
+                    onChange={(e: ChangeEvent) => {
+                      handleFormChange('cvc', e)
+                      handleChange(e)
+                    }}
+                    value={values.cvc}
+                    onFocus={handleInputFocus}
+                  >
+                    <TextField
+                      fullWidth
+                      label='cvc'
+                      name='cvc'
+                      variant='outlined'
+                    />
+                  </InputMask>
+                </Grid>
+              </Grid>
             </Form>
           );
         }}
       </Formik>
-      {/* <TextField
-        label='Name'
-        name='name'
-        onChange={handleChange('name')}
-        value={formData.name}
-        onFocus={handleInputFocus}
-        variant='outlined'
-      />
-      <TextField
-        label='Phone Number'
-        name='phone'
-        onChange={handleChange('phone')}
-        value={formData.phone}
-        variant='outlined'
-      />
-      <TextField
-        label='Card Number'
-        name='number'
-        placeholder="xxxx xxxx xxxx xxxx"
-        onChange={handleChange('number')}
-        value={formData.number}
-        onFocus={handleInputFocus}
-        variant='outlined'
-      />
-      <TextField
-        label="Expiration Date"
-        name='expiry'
-        placeholder="MM/YY"
-        onChange={handleChange('expiry')}
-        value={formData.expiry}
-        onFocus={handleInputFocus}
-        variant='outlined'
-      />
-      <TextField
-        label='cvc'
-        name='cvc'
-        placeholder="xxx"
-        onChange={handleChange('cvc')}
-        value={formData.cvc}
-        onFocus={handleInputFocus}
-        variant='outlined'
-      /> */}
       <button onClick={createCard}>Save</button>
       <button onClick={fetchCards}>List Saved Cards</button>
     </div>
