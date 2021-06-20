@@ -10,7 +10,7 @@ export const createCard = /* GraphQL */ `
     createCard(input: $input, condition: $condition) {
       number
       expiry
-      cvv
+      cvc
       name
       phone
       createdAt
@@ -26,7 +26,7 @@ export const updateCard = /* GraphQL */ `
     updateCard(input: $input, condition: $condition) {
       number
       expiry
-      cvv
+      cvc
       name
       phone
       createdAt
@@ -42,7 +42,7 @@ export const deleteCard = /* GraphQL */ `
     deleteCard(input: $input, condition: $condition) {
       number
       expiry
-      cvv
+      cvc
       name
       phone
       createdAt

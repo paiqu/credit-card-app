@@ -30,7 +30,7 @@ import { listCards } from '../graphql/queries';
 const initialFormData = {
   number: "",
   expiry: "",
-  cvv: "",
+  cvc: "",
   name: "",
   phone: "",
 };
@@ -153,12 +153,12 @@ function CardForm() {
           />
         </fieldset>
         <fieldset>
-          <legend>cvv</legend>
+          <legend>cvc</legend>
           <input
             name='cvc'
             placeholder="xxx"
             onChange={handleChange}
-            value={values.cvv}
+            value={values.cvc}
             onFocus={handleInputFocus}
           />
         </fieldset>
@@ -199,7 +199,7 @@ function CardForm() {
           name='cvc'
           placeholder="xxx"
           onChange={handleChange('cvc')}
-          value={formData.cvv}
+          value={formData.cvc}
           onFocus={handleInputFocus}
         />
       </div>
@@ -211,7 +211,7 @@ function CardForm() {
       <Cards 
         {...formData} 
         focused={focus} 
-        cvc={formData.cvv}
+        cvc={formData.cvc}
       />
       {/* <CardForm /> */}
       {/* <MuiForm /> */}
@@ -253,7 +253,7 @@ function CardForm() {
         name='cvc'
         placeholder="xxx"
         onChange={handleChange('cvc')}
-        value={formData.cvv}
+        value={formData.cvc}
         onFocus={handleInputFocus}
         variant='outlined'
       />
