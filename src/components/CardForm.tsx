@@ -48,11 +48,17 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
+    backgroundColor: "#dbe9fc",
+    height: '100%',
   },
   form: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  card: {
+    position: 'relative',
+    top: '5rem',
   }
 }));
 
@@ -123,10 +129,12 @@ function CardForm() {
 
   return (
     <div className={classes.root}>
-      <Cards 
-        {...formData} 
-        focused={focus} 
-      />
+      <div className={classes.card}>
+        <Cards
+          {...formData}
+          focused={focus}
+        />
+      </div>
       <Formik
         initialValues={initialFormData}
         onSubmit={(values) => {
@@ -146,6 +154,9 @@ function CardForm() {
                 container
                 component={Form}
                 className={classes.form}
+                style={{
+                  // backgroundColor: "#dbe9fc"
+                }}
               >
                 <Grid 
                   container 
@@ -153,8 +164,18 @@ function CardForm() {
                   xs={12} 
                   md={5}
                   spacing={1}
+                  style={{
+                    backgroundColor: "white",
+                    padding: "2rem"
+                  }}
                 >
-                  <Grid item xs={12}>
+                  <Grid 
+                    item 
+                    xs={12}
+                    style={{
+                      marginTop: '5rem',
+                    }}
+                  >
                     <TextField
                       fullWidth
                       label='Name'
