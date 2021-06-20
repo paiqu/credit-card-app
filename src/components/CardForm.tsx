@@ -141,17 +141,19 @@ function CardForm() {
 
   const CardFormSchema = Yup.object().shape({
     name: Yup.string()
-      .required("Full name is required for payment"),
+      .required("Required"),
     number: Yup.string()
+      .length(19, "Please enter full card number")
       .required("Required"),
     phone: Yup.string()
-      .length(15)
+      .matches(/^\+[1-9][0-9]{0,1} [0-9]{9}$/, 'Please enter full number')
+      .length(13)
       .required("Required"),
     expiry: Yup.string()
       .matches(/(0[1-9]|10|11|12)\/[0-9]{2}/, 'Date is invalid')
       .required("Required"),
     cvc: Yup.string()
-      .matches(/^[0-9]{3,4}$/, 'cvc is either 3 or 4 digits')
+      .matches(/^[0-9]{3,4}$/, 'CVC is invalid')
       .max(4)
       .min(3, 'cvc is at least three digits long')
       .required("Required"),
@@ -229,7 +231,7 @@ function CardForm() {
                   </Grid>
                   <Grid item xs={12} >
                     <InputMask
-                      mask="+(61) 999999999"
+                      mask="+61 999999999"
                       value={values.phone}
                       onChange={(e) => {
                         handleFormChange('phone', e)
@@ -253,6 +255,7 @@ function CardForm() {
                   <Grid item xs={12}>
                     <InputMask
                       mask='9999 9999 9999 9999'
+                      maskPlaceholder={null}
                       value={values.number}
                       onChange={(e) => {
                         handleFormChange('number', e)
@@ -261,6 +264,7 @@ function CardForm() {
                       onFocus={handleInputFocus}
                     >
                       <TextField
+                        placeholder='____ ____ ____ ____'
                         fullWidth
                         label='Card Number'
                         name='number'
@@ -277,7 +281,8 @@ function CardForm() {
                   <Grid item xs>
                     <InputMask
                       mask='99/99'
-                      maskPlaceholder='MM/YY'
+                      // maskPlaceholder='MM/YY'
+                      maskPlaceholder={null}
                       onChange={(e) => {
                         handleFormChange('expiry', e)
                         handleChange(e)
@@ -290,6 +295,7 @@ function CardForm() {
                         label="Expiration Date"
                         name='expiry'
                         variant='outlined'
+                        placeholder="MM/YY"
                         error={
                           errors.expiry && touched.expiry ? true : false
                         }
@@ -302,6 +308,7 @@ function CardForm() {
                   <Grid item xs>
                     <InputMask
                       mask='999'
+                      maskPlaceholder={null}
                       onChange={(e: ChangeEvent) => {
                         handleFormChange('cvc', e)
                         handleChange(e)
