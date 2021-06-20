@@ -195,11 +195,12 @@ function CardForm() {
                 <Grid 
                   container 
                   item 
-                  xs={12} 
+                  xs={11} 
                   md={5}
                   spacing={1}
                   style={{
                     backgroundColor: "white",
+                    borderRadius: 30,
                     padding: "2rem"
                   }}
                 >
