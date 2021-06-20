@@ -10,6 +10,9 @@ export const onCreateCard = /* GraphQL */ `
       cvc
       name
       phone
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -23,6 +26,9 @@ export const onUpdateCard = /* GraphQL */ `
       cvc
       name
       phone
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -36,6 +42,9 @@ export const onDeleteCard = /* GraphQL */ `
       cvc
       name
       phone
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
