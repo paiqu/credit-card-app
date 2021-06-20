@@ -193,7 +193,10 @@ function CardForm() {
       <Formik
         initialValues={initialFormData}
         onSubmit={(values, { resetForm }) => {
-          createCard();
+          if (saved) {
+            createCard();
+          }
+          console.log('Submitted!');
           resetForm();
         }}
         validationSchema={CardFormSchema}
