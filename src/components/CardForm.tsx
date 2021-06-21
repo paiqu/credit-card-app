@@ -1,19 +1,18 @@
 import React, { useEffect, useState, FocusEvent, ChangeEvent } from 'react';
 
-import InputMask from 'react-input-mask';
 // @ts-ignore
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 
 // components
 import CustomSnackbar from './CustomSnackbar';
+import UserCardsDialog from './UserCardsDialog';
 
 // Material UI
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Divider from '@material-ui/core/Divider';
@@ -25,11 +24,12 @@ import { formatExpiry } from '../utils/DataFormater';
 import { ICard, Severity } from '../constants/types';
 
 // Formik
-import { Formik, Form, Field, useFormik, FormikProps } from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
 import * as Yup from 'yup';
+import InputMask from 'react-input-mask';
 
 // graphql
-import { API, graphqlOperation } from 'aws-amplify';
+import { API } from 'aws-amplify';
 import { 
   createCard as createCardMutation 
 } from '../graphql/mutations';
@@ -85,6 +85,7 @@ function CardForm() {
     severity: undefined,
     message: "",
   });
+  const [cardsDialogOpen, setCardsDialogOpen] = useState(false);
 
   useEffect(() => {
     fetchCards();
@@ -134,23 +135,7 @@ function CardForm() {
     }
   }
 
-  async function fetchCardsByNameByPhone(name: string, phone: string) {
-    let filter = {
-      name: { eq: name },
-      phone: { eq: phone },
-    };
 
-    try {
-      const response = await API.graphql({
-        query: listCards,
-        variables: { filter: filter }
-      }) as { data: GetCardsQuery };
-
-      console.log(response.data.listCards.items);
-    } catch (err) {
-      console.log(err);
-    }
-  }
 
   async function createCard() {
     if (!formData.number) return;
@@ -223,9 +208,6 @@ function CardForm() {
                 container
                 component={Form}
                 className={classes.form}
-                style={{
-                  // backgroundColor: "#dbe9fc"
-                }}
               >
                 <Grid 
                   container 
@@ -385,14 +367,15 @@ function CardForm() {
                       variant='contained'
                       size='large'
                       onClick={() => {
-                        setSnackbarData({
-                          severity: "warning",
-                          message: "this is a warning"
-                        });
-                        setSnackbarOpen(true);
+                        // setSnackbarData({
+                        //   severity: "warning",
+                        //   message: "this is a warning"
+                        // });
+                        // setSnackbarOpen(true);
+                        setCardsDialogOpen(true);
                       }}
                     >
-                      Open Snack Bar
+                      Open Dialog
                     </Button>
                   </Grid>
                   <Grid item xs={12}>
@@ -421,7 +404,7 @@ function CardForm() {
                       My Wallet
                     </Button>
                   </Grid>
-                  <Grid item xs={12}>
+                  {/* <Grid item xs={12}>
                     <Button
                       fullWidth
                       color='primary'
@@ -431,7 +414,7 @@ function CardForm() {
                     >
                       Load Cards of Pai Qu (+61 123123123)
                     </Button>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Grid>
             // </Form>
@@ -443,6 +426,12 @@ function CardForm() {
         setOpen={setSnackbarOpen}
         severity={snackbarData.severity}
         message={snackbarData.message}
+      />
+      <UserCardsDialog 
+        open={cardsDialogOpen}
+        onClose={() => {
+          setCardsDialogOpen(false);
+        }}
       />
     </div>
   );
