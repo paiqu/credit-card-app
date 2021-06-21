@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     position: 'relative',
-    top: "4rem",
+    top: "5rem",
   },
   divider: {
     marginTop: '1rem',
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
   formBodyContainer: {
     backgroundColor: "white",
     borderRadius: 30,
-    padding: "5rem 2rem 2rem 2rem"
+    padding: "6rem 2rem 2rem 2rem"
   },
 }));
 
