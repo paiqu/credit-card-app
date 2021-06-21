@@ -55,8 +55,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
-    backgroundColor: "#dbe9fc",
-    height: '100%',
   },
   form: {
     display: 'flex',
@@ -65,11 +63,16 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     position: 'relative',
-    top: '5rem',
+    top: "4rem",
   },
   divider: {
     marginTop: '1rem',
     marginBottom: '1rem',
+  },
+  formBodyContainer: {
+    backgroundColor: "white",
+    borderRadius: 30,
+    padding: "5rem 2rem 2rem 2rem"
   },
 }));
 
@@ -209,24 +212,18 @@ function CardForm() {
                 component={Form}
                 className={classes.form}
               >
-                <Grid 
+                <Grid
+                  className={classes.formBodyContainer}
                   container 
                   item 
                   xs={11} 
-                  md={5}
+                  md={7}
+                  lg={4}
                   spacing={1}
-                  style={{
-                    backgroundColor: "white",
-                    borderRadius: 30,
-                    padding: "2rem"
-                  }}
                 >
                   <Grid 
                     item 
                     xs={12}
-                    style={{
-                      marginTop: '5rem',
-                    }}
                   >
                     <TextField
                       fullWidth
@@ -296,7 +293,7 @@ function CardForm() {
                       />
                     </InputMask>
                   </Grid>
-                  <Grid item xs>
+                  <Grid item xs={12} sm={6}>
                     <InputMask
                       mask='99/99'
                       // maskPlaceholder='MM/YY'
@@ -323,7 +320,7 @@ function CardForm() {
                       />
                     </InputMask>
                   </Grid>
-                  <Grid item xs>
+                  <Grid item xs={12} sm={6}>
                     <InputMask
                       mask='999'
                       maskPlaceholder={null}
@@ -362,30 +359,11 @@ function CardForm() {
                   </Grid>
                   <Grid item xs={12}>
                     <Button
-                      fullWidth
-                      color='primary'
-                      variant='contained'
-                      size='large'
-                      onClick={() => {
-                        // setSnackbarData({
-                        //   severity: "warning",
-                        //   message: "this is a warning"
-                        // });
-                        // setSnackbarOpen(true);
-                        setCardsDialogOpen(true);
-                      }}
-                    >
-                      Open Dialog
-                    </Button>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Button
                       type='submit'
                       fullWidth
                       color='primary'
                       variant='contained'
                       size='large'
-                      // onClick={createCard}
                     >
                       Submit
                     </Button>
@@ -399,22 +377,13 @@ function CardForm() {
                       color='primary'
                       variant='outlined'
                       size='large'
-                      // disabled
+                      onClick={() => {
+                        setCardsDialogOpen(true);
+                      }}
                     >
                       My Wallet
                     </Button>
                   </Grid>
-                  {/* <Grid item xs={12}>
-                    <Button
-                      fullWidth
-                      color='primary'
-                      variant='outlined'
-                      size='large'
-                      onClick={() => fetchCardsByNameByPhone("Pai Qu", "+61 123123123")}
-                    >
-                      Load Cards of Pai Qu (+61 123123123)
-                    </Button>
-                  </Grid> */}
                 </Grid>
               </Grid>
             // </Form>
