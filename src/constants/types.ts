@@ -5,3 +5,5 @@ export type ICard = {
   name: string,
   phone: string,
 }
+
+export type Severity = "error" | "success" | "info" | "warning" | undefined;

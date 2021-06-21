@@ -1,10 +1,12 @@
 import React, { useEffect, useState, FocusEvent, ChangeEvent } from 'react';
 
 import InputMask from 'react-input-mask';
-
 // @ts-ignore
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
+
+// components
+import CustomSnackbar from './CustomSnackbar';
 
 // Material UI
 import TextField from '@material-ui/core/TextField';
@@ -19,7 +21,7 @@ import Switch from '@material-ui/core/Switch';
 import { formatExpiry } from '../utils/DataFormater';
 
 // constants
-import { ICard } from '../constants/types';
+import { ICard, Severity } from '../constants/types';
 
 // Formik
 import { Formik, Form, Field, useFormik, FormikProps } from 'formik';
@@ -73,6 +75,11 @@ function CardForm() {
   const [focus, setFocus] = useState("");
   const [cards, setCards] = useState<ICard[]>([]);
   const [saved, setSaved] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarData, setSnackbarData] = useState<{severity: Severity, message: string}>({
+    severity: undefined,
+    message: "",
+  });
 
   useEffect(() => {
     fetchCards();
@@ -372,6 +379,23 @@ function CardForm() {
                   </Grid>
                   <Grid item xs={12}>
                     <Button
+                      fullWidth
+                      color='primary'
+                      variant='contained'
+                      size='large'
+                      onClick={() => {
+                        setSnackbarData({
+                          severity: "warning",
+                          message: "this is a warning"
+                        });
+                        setSnackbarOpen(true);
+                      }}
+                    >
+                      Open Snack Bar
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button
                       type='submit'
                       fullWidth
                       color='primary'
@@ -410,8 +434,12 @@ function CardForm() {
           );
         }}
       </Formik>
-      <button onClick={createCard}>Save</button>
-      <button onClick={fetchCards}>List Saved Cards</button>
+      <CustomSnackbar 
+        open={snackbarOpen}
+        setOpen={setSnackbarOpen}
+        severity={snackbarData.severity}
+        message={snackbarData.message}
+      />
     </div>
   );
 }
