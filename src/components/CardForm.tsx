@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
 function CardForm() {
   const classes = useStyles();
   
-  const [formData, setFormData] = useState(initialFormData);
+  const [formData, setFormData] = useState<ICard>(initialFormData);
   const [focus, setFocus] = useState("");
   const [cards, setCards] = useState<ICard[]>([]);
   const [saved, setSaved] = useState(false);
@@ -103,16 +103,13 @@ function CardForm() {
   };
   
 
-  const handleFormChange = (name: string, { target }: React.ChangeEvent<any>) => {
-    let newValue = target.value;
-    if (target.name === "expiry") {
-      newValue = formatExpiry(newValue);
-    }
+  const handleFormChange = (name: string, { target }: React.ChangeEvent<any>, setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void ) => {
 
     setFormData({
       ...formData,
-      [name]: newValue,
-    })
+      [name]: target.value,
+    });
+    setFieldValue(name, target.value);
   };
 
   async function fetchCardByNumber(number: string) {
@@ -200,9 +197,11 @@ function CardForm() {
         {(props: FormikProps<ICard>) => {
           const {
             values,
-            handleChange,
+            // handleChange,
             errors,
             touched,
+            setFieldValue,
+            setValues,
           } = props;
 
           return (
@@ -230,8 +229,8 @@ function CardForm() {
                       label='Name'
                       name='name'
                       onChange={(e) => {
-                        handleFormChange('name', e)
-                        handleChange(e)
+                        handleFormChange('name', e, setFieldValue);
+                        // handleChange(e)
                       }}
                       value={values.name}
                       onFocus={handleInputFocus}
@@ -249,8 +248,8 @@ function CardForm() {
                       mask="+61 999999999"
                       value={values.phone}
                       onChange={(e) => {
-                        handleFormChange('phone', e)
-                        handleChange(e)
+                        handleFormChange('phone', e, setFieldValue)
+                        // handleChange(e)
                       }}
                       >
                       <TextField
@@ -273,8 +272,8 @@ function CardForm() {
                       maskPlaceholder={null}
                       value={values.number}
                       onChange={(e) => {
-                        handleFormChange('number', e)
-                        handleChange(e)
+                        handleFormChange('number', e, setFieldValue)
+                        // handleChange(e)
                       }}
                       onFocus={handleInputFocus}
                     >
@@ -299,8 +298,8 @@ function CardForm() {
                       // maskPlaceholder='MM/YY'
                       maskPlaceholder={null}
                       onChange={(e) => {
-                        handleFormChange('expiry', e)
-                        handleChange(e)
+                        handleFormChange('expiry', e, setFieldValue)
+                        // handleChange(e)
                       }}
                       value={values.expiry}
                       onFocus={handleInputFocus}
@@ -325,8 +324,8 @@ function CardForm() {
                       mask='999'
                       maskPlaceholder={null}
                       onChange={(e: ChangeEvent) => {
-                        handleFormChange('cvc', e)
-                        handleChange(e)
+                        handleFormChange('cvc', e, setFieldValue)
+                        // handleChange(e)
                       }}
                       value={values.cvc}
                       onFocus={handleInputFocus}
@@ -384,6 +383,14 @@ function CardForm() {
                       My Wallet
                     </Button>
                   </Grid>
+                  <UserCardsDialog 
+                    open={cardsDialogOpen}
+                    onClose={() => {
+                      setCardsDialogOpen(false);
+                    }}
+                    setFormData={setFormData}
+                    setFieldValue={setFieldValue}
+                  />
                 </Grid>
               </Grid>
             // </Form>
@@ -396,12 +403,14 @@ function CardForm() {
         severity={snackbarData.severity}
         message={snackbarData.message}
       />
-      <UserCardsDialog 
+      {/* <UserCardsDialog 
         open={cardsDialogOpen}
         onClose={() => {
           setCardsDialogOpen(false);
         }}
-      />
+        setFormData={setFormData}
+        setValues={setValues}
+      /> */}
     </div>
   );
 }

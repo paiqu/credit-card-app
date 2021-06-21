@@ -31,6 +31,8 @@ import { ICard } from '../constants/types';
 type UserCardsDialogProps = {
   open: boolean,
   onClose: () => void,
+  setFormData: (formData: ICard) => void,
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
 }
 
 type GetCardsQuery = {
@@ -49,12 +51,12 @@ const NamePhoneSchema = Yup.object().shape({
 });
 
 function getSteps() {
-  return ['Enter your personal info', 'Select your card', 'Pay'];
+  return ['Enter your personal info', 'Select your card'];
 }
 
 
 
-export default function UserCardsDialog({ open, onClose }: UserCardsDialogProps){
+export default function UserCardsDialog({ open, onClose, setFormData, setFieldValue }: UserCardsDialogProps){
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
 
@@ -252,12 +254,21 @@ export default function UserCardsDialog({ open, onClose }: UserCardsDialogProps)
         </Grid>
         <Grid item xs={6}>
           <Button
-            onClick={handleNext}
+            onClick={() => {
+              setFormData({
+                ...selectedCard
+              });
+              Object.entries(selectedCard).forEach(([key, value]) => {
+                setFieldValue(key, value);
+              })
+              setActiveStep(0);
+              onClose();
+            }}
             fullWidth
             variant='contained'
             color='primary'
           >
-            Next
+            Select
           </Button>
         </Grid>
       </Grid>
@@ -270,8 +281,6 @@ export default function UserCardsDialog({ open, onClose }: UserCardsDialogProps)
         return <StepOne />;
       case 1:
         return <StepTwo />;
-      case 2:
-        return 'This is the bit I really care about!';
       default:
         return 'Unknown stepIndex';
     }
