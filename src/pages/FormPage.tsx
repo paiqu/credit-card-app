@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   form: {
-    flexGrow: 1,
     height: '100vh',
   }
 }));
