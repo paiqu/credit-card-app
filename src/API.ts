@@ -8,7 +8,6 @@ export type CreateCardInput = {
   cvc: string,
   name: string,
   phone: string,
-  _version?: number | null,
 };
 
 export type ModelCardConditionInput = {
@@ -68,9 +67,6 @@ export type Card = {
   cvc: string,
   name: string,
   phone: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
   createdAt: string,
   updatedAt: string,
 };
@@ -81,12 +77,10 @@ export type UpdateCardInput = {
   cvc?: string | null,
   name?: string | null,
   phone?: string | null,
-  _version?: number | null,
 };
 
 export type DeleteCardInput = {
   number: string,
-  _version?: number | null,
 };
 
 export type ModelCardFilterInput = {
@@ -100,18 +94,17 @@ export type ModelCardFilterInput = {
   not?: ModelCardFilterInput | null,
 };
 
-export type ModelCardConnection = {
-  __typename: "ModelCardConnection",
-  items?:  Array<Card | null > | null,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
 export enum ModelSortDirection {
   ASC = "ASC",
   DESC = "DESC",
 }
 
+
+export type ModelCardConnection = {
+  __typename: "ModelCardConnection",
+  items?:  Array<Card | null > | null,
+  nextToken?: string | null,
+};
 
 export type CreateCardMutationVariables = {
   input: CreateCardInput,
@@ -126,9 +119,6 @@ export type CreateCardMutation = {
     cvc: string,
     name: string,
     phone: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -147,9 +137,6 @@ export type UpdateCardMutation = {
     cvc: string,
     name: string,
     phone: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -168,39 +155,8 @@ export type DeleteCardMutation = {
     cvc: string,
     name: string,
     phone: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
-  } | null,
-};
-
-export type SyncCardsQueryVariables = {
-  filter?: ModelCardFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncCardsQuery = {
-  syncCards?:  {
-    __typename: "ModelCardConnection",
-    items?:  Array< {
-      __typename: "Card",
-      number: string,
-      expiry: string,
-      cvc: string,
-      name: string,
-      phone: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -216,9 +172,6 @@ export type GetCardQuery = {
     cvc: string,
     name: string,
     phone: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -242,14 +195,10 @@ export type ListCardsQuery = {
       cvc: string,
       name: string,
       phone: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
     nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -261,9 +210,6 @@ export type OnCreateCardSubscription = {
     cvc: string,
     name: string,
     phone: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -277,9 +223,6 @@ export type OnUpdateCardSubscription = {
     cvc: string,
     name: string,
     phone: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -293,9 +236,6 @@ export type OnDeleteCardSubscription = {
     cvc: string,
     name: string,
     phone: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,

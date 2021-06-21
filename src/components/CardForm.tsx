@@ -16,6 +16,7 @@ import Button from '@material-ui/core/Button';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import Divider from '@material-ui/core/Divider';
 
 // utils
 import { formatExpiry } from '../utils/DataFormater';
@@ -65,7 +66,11 @@ const useStyles = makeStyles((theme) => ({
   card: {
     position: 'relative',
     top: '5rem',
-  }
+  },
+  divider: {
+    marginTop: '1rem',
+    marginBottom: '1rem',
+  },
 }));
 
 function CardForm() {
@@ -131,12 +136,8 @@ function CardForm() {
 
   async function fetchCardsByNameByPhone(name: string, phone: string) {
     let filter = {
-      // and: [
-      //   { name: { eq: name } },
-      //   { phone: { eq: phone } },
-      // ]
       name: { eq: name },
-      phone: { eq: phone }
+      phone: { eq: phone },
     };
 
     try {
@@ -406,13 +407,16 @@ function CardForm() {
                       Submit
                     </Button>
                   </Grid>
+                  <Grid item xs={12} className={classes.divider}>
+                    <Divider />
+                  </Grid>
                   <Grid item xs={12}>
                     <Button
                       fullWidth
                       color='primary'
-                      variant='text'
+                      variant='outlined'
                       size='large'
-                      disabled
+                      // disabled
                     >
                       My Wallet
                     </Button>
