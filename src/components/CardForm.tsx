@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FocusEvent, ChangeEvent } from 'react';
+import React, { useState, FocusEvent, ChangeEvent } from 'react';
 
 // @ts-ignore
 import Cards from 'react-credit-cards';
@@ -18,7 +18,7 @@ import Switch from '@material-ui/core/Switch';
 import Divider from '@material-ui/core/Divider';
 
 // utils
-import { formatExpiry, capitalizeString } from '../utils/DataFormater';
+import { capitalizeString } from '../utils/DataFormater';
 
 // constants
 import { ICard, Severity } from '../constants/types';
@@ -33,7 +33,7 @@ import { API } from 'aws-amplify';
 import { 
   createCard as createCardMutation 
 } from '../graphql/mutations';
-import { getCard, listCards } from '../graphql/queries';
+import { getCard } from '../graphql/queries';
 
 const initialFormData = {
   number: "",
@@ -42,12 +42,6 @@ const initialFormData = {
   name: "",
   phone: "",
 };
-
-type GetCardsQuery = {
-  listCards: {
-    items: ICard[]
-  }
-}
 
 type GetCardQuery = {
   getCard: {
@@ -87,7 +81,6 @@ function CardForm() {
   
   const [formData, setFormData] = useState<ICard>(initialFormData);
   const [focus, setFocus] = useState("");
-  const [cards, setCards] = useState<ICard[]>([]);
   const [saved, setSaved] = useState(true);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarData, setSnackbarData] = useState<{severity: Severity, message: string}>({
@@ -95,10 +88,6 @@ function CardForm() {
     message: "",
   });
   const [cardsDialogOpen, setCardsDialogOpen] = useState(false);
-
-  useEffect(() => {
-    fetchCards();
-  }, []);
 
   const handleInputFocus = (e: FocusEvent<any>) => {
     setFocus(e.target.name);
@@ -117,29 +106,6 @@ function CardForm() {
     });
     setFieldValue(name, target.value);
   };
-
-  async function fetchCardByNumber(number: string) {
-    try {
-      
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async function fetchCards() {
-    try {
-      const response = await API.graphql({
-        query: listCards
-      }) as { data: GetCardsQuery };
-      const newCards = response.data.listCards.items;
-      // change this later!
-      setCards(newCards);
-    } catch (err) {
-      console.log(err); 
-    }
-  }
-
-
 
   async function createCard() {
     if (!formData.number) return;
@@ -241,7 +207,6 @@ function CardForm() {
             errors,
             touched,
             setFieldValue,
-            setValues,
           } = props;
 
           return (

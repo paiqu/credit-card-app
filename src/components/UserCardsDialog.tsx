@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import CardSelectionPage from '../pages/CardSelectionPage';
 
 // Material UI
 import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import TextField from '@material-ui/core/TextField';
@@ -13,20 +11,10 @@ import Button from '@material-ui/core/Button';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import CircularProgress from '@material-ui/core/CircularProgress';
-
-// graphql
-import { API } from 'aws-amplify';
-import { listCards } from '../graphql/queries';
 
 // Formik
 import InputMask from 'react-input-mask';
-import { Formik, Form, Field, useFormik, FormikProps } from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
 import * as Yup from 'yup';
 
 // constants
@@ -97,7 +85,6 @@ export default function UserCardsDialog({ open, onClose, setFormData, setCardFor
                 handleChange,
                 errors,
                 touched,
-                setFieldValue,
               } = props;
 
               return (

@@ -4,24 +4,6 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import { Severity } from '../constants/types';
 
-type AlertProps = {
-  onClose: (event?: React.SyntheticEvent, reason?: string) => void,
-  severity: Severity,
-  children: string
-}
-
-
-function Alert({ onClose, severity}: AlertProps) {
-  return (
-    <MuiAlert 
-      elevation={6} 
-      variant="filled" 
-      onClose={onClose}
-      severity={severity}
-    />
-  );
-}
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -52,9 +34,6 @@ export default function CustomSnackbar({ open, setOpen, severity, message }: Sna
   return (
     <div className={classes.root}>
         <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
-          {/* <Alert onClose={handleClose} severity={severity}>
-            {message}
-          </Alert> */}
           <MuiAlert 
             elevation={6} 
             variant="filled" 

@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -23,11 +14,6 @@ import { capitalizeString  } from '../utils/DataFormater';
 // graphql
 import { API } from 'aws-amplify';
 import { listCards } from '../graphql/queries';
-
-// Formik
-import InputMask from 'react-input-mask';
-import { Formik, Form, Field, useFormik, FormikProps } from 'formik';
-import * as Yup from 'yup';
 
 // constants
 import { ICard } from '../constants/types';
@@ -75,6 +61,7 @@ export default function CardSelectionPage({
     setTimeout(() => {
       setLoading(false);
     }, 1000)
+  // eslint-disable-next-line
   }, []);
 
   async function fetchCardsByNameByPhone(name: string, phone: string) {

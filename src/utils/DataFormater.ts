@@ -10,6 +10,7 @@ export function formatExpiry(value: string) {
 }
 
 export function capitalizeString(value: string) {
+  // eslint-disable-next-line
   return value.
       split(' ')
       .map(w => w[0].toUpperCase() + w.substr(1).toLowerCase())
