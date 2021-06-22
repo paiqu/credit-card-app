@@ -33,7 +33,7 @@ import { API } from 'aws-amplify';
 import { 
   createCard as createCardMutation 
 } from '../graphql/mutations';
-import { listCards } from '../graphql/queries';
+import { getCard, listCards } from '../graphql/queries';
 
 const initialFormData = {
   number: "",
@@ -46,6 +46,12 @@ const initialFormData = {
 type GetCardsQuery = {
   listCards: {
     items: ICard[]
+  }
+}
+
+type GetCardQuery = {
+  getCard: {
+    createdAt: string | null;
   }
 }
 
@@ -144,6 +150,25 @@ function CardForm() {
       expiry,
       cvc
     } = formData;
+
+    // check card existence first
+    try {
+      const response = await API.graphql({
+        query: getCard,
+        variables: {
+          number: number
+        }
+      }) as { data: GetCardQuery };
+      
+      console.log(response.data.getCard.createdAt);
+      if (response.data.getCard.createdAt !== null) {
+        setFormData(initialFormData);
+        setFocus("");
+        return;
+      }
+    } catch (err) {
+      console.log(err);
+    }
 
     try {
       await API.graphql({
