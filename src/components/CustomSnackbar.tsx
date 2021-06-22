@@ -33,7 +33,7 @@ export default function CustomSnackbar({ open, setOpen, severity, message }: Sna
 
   return (
     <div className={classes.root}>
-        <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+        <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
           <MuiAlert 
             elevation={6} 
             variant="filled" 
