@@ -43,6 +43,14 @@ type GetCardsQuery = {
   }
 }
 
+const emptyCard: ICard = {
+  number: "",
+  expiry: "",
+  cvc: "",
+  name: "",
+  phone: "",
+};
+
 export default function CardSelectionPage({ 
   name, 
   phone, 
@@ -52,21 +60,18 @@ export default function CardSelectionPage({
 }: CardSelectionPageProps) {
   const [cards, setCards] = useState<ICard[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [selectedCard, setSelectedCard] = useState<ICard>({
-    number: "",
-    expiry: "",
-    cvc: "",
-    name: "",
-    phone: "",
-  });
+  const [selectedCard, setSelectedCard] = useState<ICard>(emptyCard);
 
   useEffect(() => {
+    setSelectedCard(emptyCard);
+    setCards([]);
     fetchCardsByNameByPhone(name, phone);
     if (cards.length > 0) {
       setSelectedCard(cards[0]);
     }
-    console.log(cards.length);
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000)
   }, []);
 
   async function fetchCardsByNameByPhone(name: string, phone: string) {
@@ -131,7 +136,7 @@ export default function CardSelectionPage({
                 )
                 : (
                   <Grid item xs={12}>
-                    {/* <h1 style={{textAlign: 'center'}}>No cards available</h1> */}
+                    <h1 style={{textAlign: 'center'}}>No cards available</h1>
                   </Grid>
                 )
             )
