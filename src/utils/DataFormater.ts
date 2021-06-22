@@ -9,8 +9,9 @@ export function formatExpiry(value: string) {
   return data;
 }
 
-export function formatCardNumber(value: string) {
-  if (!value) return value;
-
-  
+export function capitalizeString(value: string) {
+  return value.
+      split(' ')
+      .map(w => w[0].toUpperCase() + w.substr(1).toLowerCase())
+      .join(' ');
 }

@@ -21,10 +21,7 @@ export default function FormPage() {
 
   return (
     <div className={classes.root}>
-      {/* <h1 style={{textAlign: "center"}}>Form Page</h1> */}
-      {/* <div className={classes.form}> */}
       <CardForm />
-      {/* </div> */}
     </div>
   );
 }

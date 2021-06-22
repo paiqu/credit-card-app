@@ -17,6 +17,9 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+// utils
+import { capitalizeString  } from '../utils/DataFormater';
+
 // graphql
 import { API } from 'aws-amplify';
 import { listCards } from '../graphql/queries';
@@ -75,8 +78,10 @@ export default function CardSelectionPage({
   }, []);
 
   async function fetchCardsByNameByPhone(name: string, phone: string) {
+    let newName = capitalizeString(name);
+    console.log(newName);
     let filter = {
-      name: { eq: name },
+      name: { eq: capitalizeString(name) },
       phone: { eq: phone },
     };
 

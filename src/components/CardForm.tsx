@@ -18,7 +18,7 @@ import Switch from '@material-ui/core/Switch';
 import Divider from '@material-ui/core/Divider';
 
 // utils
-import { formatExpiry } from '../utils/DataFormater';
+import { formatExpiry, capitalizeString } from '../utils/DataFormater';
 
 // constants
 import { ICard, Severity } from '../constants/types';
@@ -82,7 +82,7 @@ function CardForm() {
   const [formData, setFormData] = useState<ICard>(initialFormData);
   const [focus, setFocus] = useState("");
   const [cards, setCards] = useState<ICard[]>([]);
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState(true);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarData, setSnackbarData] = useState<{severity: Severity, message: string}>({
     severity: undefined,
@@ -137,11 +137,25 @@ function CardForm() {
 
   async function createCard() {
     if (!formData.number) return;
+    const {
+      name,
+      phone,
+      number,
+      expiry,
+      cvc
+    } = formData;
+
     try {
       await API.graphql({
         query: createCardMutation,
         variables: {
-          input: formData
+          input: {
+            name: capitalizeString(name),
+            phone,
+            number,
+            expiry,
+            cvc
+          }
         }
       });
       setFormData(initialFormData);
