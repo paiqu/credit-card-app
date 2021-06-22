@@ -73,7 +73,7 @@ export default function UserCardsDialog({ open, onClose, setFormData, setCardFor
               setUser({
                 name,
                 phone,
-              })
+              });
               resetForm();
               handleNext();
             }}

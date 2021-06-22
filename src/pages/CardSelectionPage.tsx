@@ -118,11 +118,13 @@ export default function CardSelectionPage({
                   <FormControl component="fieldset" fullWidth style={{textAlign: 'center'}}>
                     <FormLabel component="legend">Your Cards</FormLabel>
                     <RadioGroup value={selectedCard.number} onChange={handleSelectedCardChange} >
-                      {cards.map(card => (
-                        <Grid item xs={12} >
-                          <FormControlLabel key={card.number} value={card.number} control={<Radio />} label={card.number} />
-                        </Grid>
-                      ))}
+                      <Grid container item xs={12}>
+                        {cards.map(card => (
+                          <Grid item xs={12} >
+                            <FormControlLabel key={card.number} value={card.number} control={<Radio />} label={card.number} />
+                          </Grid>
+                        ))}
+                      </Grid>
                     </RadioGroup>
                   </FormControl>
                 )
