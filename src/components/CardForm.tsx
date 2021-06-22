@@ -125,9 +125,7 @@ function CardForm() {
       const response = await API.graphql({
         query: listCards
       }) as { data: GetCardsQuery };
-      console.log(response);
       const newCards = response.data.listCards.items;
-      console.log(newCards);
       // change this later!
       setCards(newCards);
     } catch (err) {
@@ -146,7 +144,6 @@ function CardForm() {
           input: formData
         }
       });
-      console.log("card created");
       setFormData(initialFormData);
       setFocus("");
     } catch (err) {
@@ -189,7 +186,11 @@ function CardForm() {
           if (saved) {
             createCard();
           }
-          console.log('Submitted!');
+          setSnackbarData({
+            severity: 'success', 
+            message: "Your card has been submitted."
+          });
+          setSnackbarOpen(true);
           resetForm();
         }}
         validationSchema={CardFormSchema}
@@ -389,7 +390,7 @@ function CardForm() {
                       setCardsDialogOpen(false);
                     }}
                     setFormData={setFormData}
-                    setFieldValue={setFieldValue}
+                    setCardFormFieldValue={setFieldValue}
                   />
                 </Grid>
               </Grid>
@@ -403,14 +404,6 @@ function CardForm() {
         severity={snackbarData.severity}
         message={snackbarData.message}
       />
-      {/* <UserCardsDialog 
-        open={cardsDialogOpen}
-        onClose={() => {
-          setCardsDialogOpen(false);
-        }}
-        setFormData={setFormData}
-        setValues={setValues}
-      /> */}
     </div>
   );
 }

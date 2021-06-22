@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -15,6 +15,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // graphql
 import { API } from 'aws-amplify';
@@ -32,7 +33,7 @@ type UserCardsDialogProps = {
   open: boolean,
   onClose: () => void,
   setFormData: (formData: ICard) => void,
-  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
+  setCardFormFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
 }
 
 type GetCardsQuery = {
@@ -56,11 +57,13 @@ function getSteps() {
 
 
 
-export default function UserCardsDialog({ open, onClose, setFormData, setFieldValue }: UserCardsDialogProps){
+export default function UserCardsDialog({ open, onClose, setFormData, setCardFormFieldValue }: UserCardsDialogProps){
   const [activeStep, setActiveStep] = useState(0);
+  const [cards, setCards] = useState<ICard[]>();
+  const [loading, setLoading] = useState(false);
   const steps = getSteps();
 
-  const [cards, setCards] = useState<ICard[]>([]);
+
   const [selectedCard, setSelectedCard] = useState<ICard>({
     number: "",
     expiry: "",
@@ -69,13 +72,38 @@ export default function UserCardsDialog({ open, onClose, setFormData, setFieldVa
     phone: "",
   });
 
+  useEffect(() => {
+    return () => {
+      if (cards && cards.length > 0) {
+        const { name, phone } = cards[0];
+        fetchCardsByNameByPhone(name, phone);
+        console.log('use effect');
+      }
+    }
+  }, [activeStep]);
+
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
+  const handleClose = () => {
+    onClose();
+    setCards([]);
+    setSelectedCard({
+      number: "",
+      expiry: "",
+      cvc: "",
+      name: "",
+      phone: "",
+    });
+    setActiveStep(0);
+  }
+
 
   const handleSelectedCardChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedNumber = (event.target as HTMLInputElement).value;
+    if (!cards) return;
     const selected = cards.filter(card => {
       return card.number === selectedNumber;
     })[0];
@@ -98,8 +126,10 @@ export default function UserCardsDialog({ open, onClose, setFormData, setFieldVa
       const cardsData: ICard[] = response.data.listCards.items;
 
       setCards(cardsData);
+      // setCards(cardsData);
     } catch (err) {
       console.log(err);
+      return [];
     }
   }
   
@@ -126,6 +156,7 @@ export default function UserCardsDialog({ open, onClose, setFormData, setFieldVa
                 handleChange,
                 errors,
                 touched,
+                setFieldValue,
               } = props;
 
               return (
@@ -150,7 +181,9 @@ export default function UserCardsDialog({ open, onClose, setFormData, setFieldVa
                         fullWidth
                         label='Name'
                         name='name'
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          handleChange(e);
+                        }}
                         value={values.name}
                         error={
                           errors.name && touched.name ? true : false
@@ -165,7 +198,9 @@ export default function UserCardsDialog({ open, onClose, setFormData, setFieldVa
                         mask="+61 999999999"
                         maskPlaceholder={null}
                         value={values.phone}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          handleChange(e);
+                        }}
                         >
                         <TextField
                           fullWidth
@@ -186,7 +221,7 @@ export default function UserCardsDialog({ open, onClose, setFormData, setFieldVa
                           fullWidth
                           // variant='outlined'
                           color='secondary'
-                          onClick={onClose}
+                          onClick={handleClose}
                         >
                           Cancel
                         </Button>
@@ -220,14 +255,14 @@ export default function UserCardsDialog({ open, onClose, setFormData, setFieldVa
       <Grid container item xs={12} >
         <Grid container item xs={12}>
           {
-            cards.length > 0
+            cards 
               ? (
                 <FormControl component="fieldset" fullWidth style={{textAlign: 'center'}}>
                   <FormLabel component="legend">Your Cards</FormLabel>
                   <RadioGroup value={selectedCard.number} onChange={handleSelectedCardChange} >
                     {cards.map(card => (
                       <Grid item xs={12} >
-                        <FormControlLabel value={card.number} control={<Radio />} label={card.number} />
+                        <FormControlLabel key={card.number} value={card.number} control={<Radio />} label={card.number} />
                       </Grid>
                     ))}
                   </RadioGroup>
@@ -235,7 +270,7 @@ export default function UserCardsDialog({ open, onClose, setFormData, setFieldVa
               )
               : (
                 <Grid item xs={12}>
-                  <h1 style={{textAlign: 'center'}}>No cards available</h1>
+                  {/* <h1 style={{textAlign: 'center'}}>No cards available</h1> */}
                 </Grid>
               )
           }
@@ -243,8 +278,7 @@ export default function UserCardsDialog({ open, onClose, setFormData, setFieldVa
         <Grid item xs={6}>
           <Button
             onClick={() => {
-              onClose();
-              setActiveStep(0);
+              handleClose();
             }}
             fullWidth
             color='secondary'
@@ -255,20 +289,21 @@ export default function UserCardsDialog({ open, onClose, setFormData, setFieldVa
         <Grid item xs={6}>
           <Button
             onClick={() => {
-              setFormData({
-                ...selectedCard
-              });
-              Object.entries(selectedCard).forEach(([key, value]) => {
-                setFieldValue(key, value);
-              })
-              setActiveStep(0);
-              onClose();
+              if (selectedCard) {
+                setFormData({
+                  ...selectedCard
+                });
+                Object.entries(selectedCard).forEach(([key, value]) => {
+                  setCardFormFieldValue(key, value);
+                })
+              }
+              handleClose();
             }}
             fullWidth
             variant='contained'
             color='primary'
           >
-            Select
+            Next
           </Button>
         </Grid>
       </Grid>
@@ -289,24 +324,32 @@ export default function UserCardsDialog({ open, onClose, setFormData, setFieldVa
   return (
     <Dialog 
       open={open} 
-      onClose={onClose}
+      onClose={handleClose}
       disableBackdropClick
       disableEscapeKeyDown
     >
-      <Grid container spacing={1} >
-        <Grid item xs={12}>
-          <Stepper activeStep={activeStep} alternativeLabel>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-        </Grid>
-        <Grid container item xs={12}>
-          {getStepContent(activeStep)}
-        </Grid>
-      </Grid>
+      { !loading
+          ? (
+            <Grid container spacing={1} >
+            <Grid item xs={12}>
+              <Stepper activeStep={activeStep} alternativeLabel>
+                {steps.map((label) => (
+                  <Step key={label}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+            </Grid>
+            <Grid container item xs={12}>
+              {getStepContent(activeStep)}
+            </Grid>
+          </Grid>
+          )
+          : (
+            <CircularProgress color='secondary' />
+          )
+      }
+
     </Dialog>
   );
 }
